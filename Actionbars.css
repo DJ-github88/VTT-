@@ -1,0 +1,250 @@
+/* Updated Action Bar Styles */
+.action-bar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    z-index: 1000;
+    background-color: #0a0a0a; /* Match navigation background */
+    padding: 2px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+    transition: all 0.3s ease;
+}
+
+/* Base Action Slot Styling */
+.action-slot {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin: 0 5px;
+    background-color: #0a0a0a;
+    border: 1px solid #333;
+    border-radius: 0;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced Action Slot Hover Effect */
+.action-slot::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.action-slot:hover::before {
+    width: 150%;
+    height: 150%;
+}
+
+/* Action Slot Icon Styling */
+.action-slot img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: grayscale(100%) brightness(80%) contrast(120%);
+    transform-origin: center;
+    pointer-events: none;
+}
+
+.action-slot:hover img {
+    transform: scale(1.1) translateY(-2px);
+    filter: grayscale(100%) brightness(100%) contrast(120%);
+}
+
+/* Action Slot Quantity Styling */
+.action-slot-quantity {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 1px 3px;
+    font-size: 8px;
+    font-family: 'Times New Roman', serif;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+/* Hover state for quantity */
+.action-slot:hover .action-slot-quantity {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Empty Slot Styling */
+.action-slot.empty {
+    opacity: 0.5;
+}
+
+.action-slot.empty img {
+    opacity: 0.5;
+    object-fit: contain;
+    transform: none;
+    filter: grayscale(100%) brightness(60%) contrast(100%);
+}
+
+/* Enhanced Active Slot State */
+.action-slot.active-slot {
+    background-color: #1a1a1a;
+    border-color: #444;
+    position: relative;
+    box-shadow:
+        0 0 15px rgba(255, 255, 255, 0.1),
+        inset 0 0 8px rgba(255, 255, 255, 0.05);
+    transform: translateY(1px);
+}
+
+/* Active Slot Top Glow */
+.action-slot.active-slot::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%
+    );
+    animation: activeGlow 3s ease-in-out infinite;
+    z-index: 2;
+}
+
+/* Active Slot Background Effect */
+.action-slot.active-slot::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(
+        45deg,
+        rgba(51, 51, 51, 0.5),
+        rgba(26, 26, 26, 0.5)
+    );
+    z-index: -1;
+    filter: blur(5px);
+    opacity: 0.3;
+    animation: subtlePulse 4s infinite alternate;
+}
+
+/* Active Slot Icon Enhancement */
+.action-slot.active-slot img {
+    filter: grayscale(0%) brightness(120%) contrast(120%);
+    transform: scale(1.1);
+    animation: floatIcon 3s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes activeGlow {
+    0%, 100% {
+        opacity: 0.4;
+        transform: translateX(-5%);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translateX(5%);
+    }
+}
+
+@keyframes subtlePulse {
+    0% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0.4;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes floatIcon {
+    0%, 100% {
+        transform: scale(1.1) translateY(0);
+    }
+    50% {
+        transform: scale(1.1) translateY(-2px);
+    }
+}
+
+/* Hover state for active slots */
+.action-slot.active-slot:hover {
+    background-color: #1f1f1f;
+    transform: translateY(0);
+}
+
+.action-slot.active-slot:hover img {
+    transform: scale(1.15);
+    animation: none;
+}
+
+.action-slot[data-action-type="consumable"] {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.action-slot[data-action-type="consumable"] img {
+    object-fit: contain;
+    transform: none;
+}
+
+.action-slot[data-action-type="consumable"].empty img {
+    object-fit: contain;
+    transform: none;
+    opacity: 0.5;
+}
+
+/* Group separation for active slots with enhanced styling */
+.action-slot.active-slot + .action-slot:not(.active-slot),
+.action-slot:not(.active-slot) + .action-slot.active-slot {
+    border-left-color: #444;
+    position: relative;
+}
+
+/* Separator Animation */
+.action-slot.active-slot + .action-slot:not(.active-slot)::before,
+.action-slot:not(.active-slot) + .action-slot.active-slot::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: 25%;
+    height: 50%;
+    width: 1px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    animation: separatorGlow 2s infinite alternate;
+}
+
+@keyframes separatorGlow {
+    from {
+        opacity: 0.3;
+        height: 30%;
+    }
+    to {
+        opacity: 0.6;
+        height: 70%;
+    }
+}

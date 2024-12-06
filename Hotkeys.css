@@ -1,0 +1,13 @@
+
+.hotkey {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background-color: rgba(0,0,0,0.7);
+    color: #ece3d6;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-family: 'Diablo', 'Cinzel', serif;
+    border: 1px solid #6b2929;
+}

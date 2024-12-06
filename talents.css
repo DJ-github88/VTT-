@@ -1,0 +1,346 @@
+
+
+/* Main container styling */
+.talent-tree-container {
+    position: absolute;
+    /* Set initial position */
+    left: 100px; /* Adjust as needed */
+    top: 100px;  /* Adjust as needed */
+    width: 600px; /* Adjust as needed */
+    min-height: 600px;
+    background-color: rgba(0, 0, 0, 0.95);
+    color: #d1d1d1;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+}
+
+/* Header styling */
+.talent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #333;
+    background: linear-gradient(to bottom, #0a0a0a, #000000);
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.talent-header::before,
+.talent-header::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #333;
+}
+
+.talent-header::before {
+    top: 5px;
+    left: 5px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.talent-header::after {
+    top: 5px;
+    right: 5px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.talent-points {
+    font-size: 16px;
+    color: #a1a1a1;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.05);
+    letter-spacing: 1px;
+}
+
+/* Tab styling */
+.talent-tabs {
+    display: flex;
+    gap: 1px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background: linear-gradient(to bottom, #0a0a0a, #000000);
+    border: 1px solid #333;
+    color: #a1a1a1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.tab-button:hover {
+    background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
+    color: #ffffff;
+    border-color: #444;
+}
+
+.tab-button.active {
+    background: linear-gradient(to bottom, #1a1a1a, #000000);
+    color: #ffffff;
+    border-color: #444;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+/* Reset button styling */
+.reset-button {
+    padding: 8px 16px;
+    background: linear-gradient(to bottom, #0a0a0a, #000000);
+    border: 1px solid #333;
+    color: #a1a1a1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.reset-button:hover {
+    background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
+    color: #ffffff;
+    border-color: #444;
+}
+
+/* Talent tree styling */
+.talent-tree {
+    display: none;
+    width: 100%;
+    height: calc(100% - 60px);
+    padding: 20px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.talent-tree.active {
+    display: block;
+}
+
+.talent-tree::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+}
+
+talent-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 80px);
+    grid-template-rows: repeat(7, 80px);
+    gap: 15px;
+    position: relative;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+/* Talent icon styling */
+.talent-icon {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    transition: all 0.2s ease;
+    filter: grayscale(100%) brightness(50%);
+}
+
+
+.talent-icon::before,
+.talent-icon::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #333;
+}
+
+.talent-icon::before {
+    top: -1px;
+    left: -1px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.talent-icon::after {
+    top: -1px;
+    right: -1px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.talent-icon.available {
+    filter: grayscale(0%) brightness(100%);
+    border-color: #666;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.talent-icon.available:hover {
+    border-color: #666;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.talent-icon.maxed {
+    filter: grayscale(0%) brightness(100%);
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.talent-icon.unavailable {
+    filter: grayscale(100%) brightness(30%);
+    cursor: not-allowed;
+}
+
+/* Talent rank display */
+.talent-rank {
+    position: absolute;
+    bottom: -20px;
+    right: -10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px solid #444;
+}
+
+/* Arrow styling */
+.talent-arrow {
+    position: absolute;
+    background: #444;
+    z-index: 1;
+}
+
+.talent-arrow.active {
+    background: #444;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.talent-arrow.active::after {
+    border-left-color: #ffd700;
+}
+
+.talent-arrow::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: -3px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid #444;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+}
+
+/* Tooltip styling */
+#talentTooltip {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid #666;
+    border-radius: 4px;
+    padding: 12px;
+    max-width: 300px;
+    z-index: 1000;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+
+#talentTooltip::before,
+#talentTooltip::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #333;
+}
+
+#talentTooltip::before {
+    top: 5px;
+    left: 5px;
+    border-right: none;
+    border-bottom: none;
+}
+
+#talentTooltip::after {
+    top: 5px;
+    right: 5px;
+    border-left: none;
+    border-bottom: none;
+}
+
+#talentTooltip h3 {
+    color: #ffd700;
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#talentTooltip p {
+    color: #a1a1a1;
+    margin: 5px 0;
+    font-size: 13px;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
+}
+
+#talentTooltip .description {
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+#talentTooltip .next-rank {
+    color: #00ff00;
+    font-size: 12px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #444;
+}
+
+#talentTooltip .requirements ul {
+    list-style-type: none;
+    margin-left: 10px;
+    padding: 0;
+}
+
+#talentTooltip .requirements li {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 0.5px;
+}
+
+#talentTooltip .requirements li.unmet {
+    color: #660000;
+}
+
+#talentTooltip .requirements li.met {
+    color: #444;
+}
+#talentTooltip .requirements {
+    color: #ff4444;
+    font-size: 12px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #444;
+}
+
+#talentTooltip .requirements.met {
+    color: #00ff00;
+}

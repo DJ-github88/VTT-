@@ -1,0 +1,400 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+
+/* Main container styling */
+.spellbook-container {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.97);
+    color: #d1d1d1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Cinzel', serif;
+    z-index: 1009;
+}
+
+/* Header styling */
+.spellbook-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #333;
+    background: linear-gradient(to bottom, #0a0a0a, #000000);
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.spellbook-header::before,
+.spellbook-header::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #333;
+}
+
+.spellbook-header::before {
+    top: 5px;
+    left: 5px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.spellbook-header::after {
+    top: 5px;
+    right: 5px;
+    border-left: none;
+    border-bottom: none;
+}
+
+/* Tab styling */
+.spellbook-tabs {
+    display: flex;
+    gap: 1px;
+}
+
+.spellbook-tab {
+    padding: 10px 20px;
+    background: linear-gradient(to bottom, #0a0a0a, #000000);
+    border: 1px solid #333;
+    color: #a1a1a1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.spellbook-tab:hover {
+    background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
+    color: #ffffff;
+    border-color: #444;
+}
+
+.spellbook-tab.active {
+    background: linear-gradient(to bottom, #1a1a1a, #000000);
+    color: #ffffff;
+    border-color: #444;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+/* Spellbook content */
+.spellbook-content {
+    display: none;
+    padding: 20px;
+    flex-grow: 1;
+    background-color: #000000;
+    position: relative;
+    overflow-y: auto;
+}
+
+.spellbook-content.active {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Add a misty overlay */
+.spellbook-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
+    pointer-events: none;
+}
+
+/* Spell icon styling */
+.spell-icon {
+    width: 64px;
+    height: 64px;
+    border: 1px solid #333;
+    cursor: grab;
+    position: relative;
+    pointer-events: auto;
+    background-color: #0a0a0a;
+    background-size: cover; /* Ensures image fills container without stretching */
+    background-position: center; /* Centers the image within the icon */
+    background-repeat: no-repeat; /* Prevents image tiling */
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px; /* Adjust size of emoji, only used if no image */
+    overflow: hidden; /* Prevents any overflow from images */
+    z-index: 1010;
+}
+
+/* Ensures better hover effect and keeps icon proportions */
+.spell-icon img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Ensures image fits within bounds */
+    pointer-events: none; /* Disables accidental dragging of images */
+}
+
+.spell-icon::before,
+.spell-icon::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #333;
+}
+
+.spell-icon::before {
+    top: -1px;
+    left: -1px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.spell-icon::after {
+    top: -1px;
+    right: -1px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.spell-icon:hover {
+    border-color: #666;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.spell-icon:active {
+    cursor: grabbing;
+}
+
+.spell-icon.dragging {
+    opacity: 0.5;
+    transform: scale(1.1);
+}
+
+.action-slot.drag-hover {
+    border-color: #ff4444;
+    transform: scale(1.1);
+}
+
+/* Tooltip styling */
+#spellTooltip {
+    position: fixed;
+    z-index: 9999;
+    background-color: rgba(20, 20, 20, 0.95);
+    border: 1px solid #6b2929;
+    padding: 12px;
+    border-radius: 4px;
+    color: #ffffff;
+    pointer-events: none;
+    min-width: 200px;
+    max-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 0 15px rgba(107, 41, 41, 0.2);
+    /* Remove any transform properties */
+    transform: none;
+    /* Ensure visibility is controlled by JavaScript */
+    display: none;
+}
+
+
+#spellTooltip .tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #6b2929;
+}
+
+#spellTooltip::before,
+#spellTooltip::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #333;
+}
+
+#spellTooltip::before {
+    top: 5px;
+    left: 5px;
+    border-right: none;
+    border-bottom: none;
+}
+
+#spellTooltip::after {
+    top: 5px;
+    right: 5px;
+    border-left: none;
+    border-bottom: none;
+}
+
+#spellTooltip h3 {
+    color: #ffffff;
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#spellTooltip p {
+    color: #a1a1a1;
+    margin: 5px 0;
+    font-size: 13px;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
+}
+
+#spellTooltip .ability-name {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+#spellTooltip .ability-type {
+    color: #8b8b8b;
+    font-size: 0.9em;
+    margin-left: auto;
+}
+
+#spellTooltip .ability-description {
+    color: #d4d4d4;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+#spellTooltip .ability-stats {
+    display: grid;
+    gap: 4px;
+    padding-top: 8px;
+    border-top: 1px solid #6b2929;
+}
+
+#spellTooltip .stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Stat colors */
+#spellTooltip .stat.ap { color: #f1c40f; }
+#spellTooltip .stat.mana { color: #3498db; }
+#spellTooltip .stat.health { color: #e74c3c; }
+
+.ability-tooltip {
+    position: absolute;
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid #6b2929;
+    border-radius: 4px;
+    padding: 12px;
+    min-width: 200px;
+    max-width: 300px;
+    color: #ffffff;
+    font-family: 'Cinzel', serif;
+    pointer-events: none;
+    z-index: 1500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3),
+                0 0 15px rgba(107, 41, 41, 0.2);
+}
+
+.tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #6b2929;
+}
+
+.ability-name {
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.ability-type {
+    color: #8b8b8b;
+    font-size: 0.9em;
+}
+
+.ability-icon {
+    font-size: 1.2em;
+}
+
+.ability-tooltip .ability-stats {
+    display: grid;
+    gap: 4px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #6b2929;
+}
+
+.ability-description {
+    color: #d4d4d4;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+/* Stats Section */
+.ability-stats {
+    display: grid;
+    gap: 4px;
+    padding-top: 8px;
+    border-top: 1px solid #6b2929;
+    font-size: 0.9em;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Cost Colors */
+.stat.ap {
+    color: #f1c40f;
+}
+
+.stat.mana {
+    color: #3498db;
+}
+
+.stat.health {
+    color: #e74c3c;
+}
+
+/* Tooltip Arrow */
+.ability-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 10px;
+    height: 10px;
+    background: rgba(20, 20, 20, 0.95);
+    border-left: 1px solid #6b2929;
+    border-top: 1px solid #6b2929;
+}
+
+/* Effects Section for Consumables */
+.item-effects {
+    padding-top: 8px;
+    border-top: 1px solid #6b2929;
+}
+
+.effect {
+    color: #a8a8a8;
+    font-size: 0.9em;
+    padding: 2px 0;
+}
+
+/* Empty Slot Style */
+.action-slot.empty .ability-tooltip {
+    display: none;
+}

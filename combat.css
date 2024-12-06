@@ -1,0 +1,1318 @@
+/* Add to your CSS */
+.abilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    padding: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.ability-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #4a1c1c;
+    border-radius: 8px;
+    padding: 12px;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.ability-card:hover {
+    transform: translateY(-2px);
+}
+
+.ability-card.physical {
+    border-color: #c75d5d;
+}
+
+.ability-card.spell {
+    border-color: #8b5dc7;
+}
+
+.ability-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.ability-header h3 {
+    margin: 0;
+    color: #ffd700;
+    font-size: 16px;
+}
+
+.ability-type {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.ability-type.physical {
+    background: rgba(199, 93, 93, 0.2);
+    color: #ff9999;
+}
+
+.ability-type.spell {
+    background: rgba(139, 93, 199, 0.2);
+    color: #c4a6ff;
+}
+
+.ability-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 8px;
+    margin: 8px 0;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+.ability-description {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #ccc;
+    margin: 8px 0;
+}
+
+.use-ability-btn {
+    width: 100%;
+    padding: 8px;
+    background: #4a1c1c;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.use-ability-btn:hover {
+    background: #6a2c2c;
+}
+
+.use-ability-btn:active {
+    background: #3a1c1c;
+}
+
+/* Icons */
+.damage-icon, .mana-icon, .range-icon {
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.damage-icon {
+    background-image: url('/api/placeholder/16/16');
+}
+
+.mana-icon {
+    background-image: url('/api/placeholder/16/16');
+}
+
+.range-icon {
+    background-image: url('/api/placeholder/16/16');
+}
+
+/* Add to your CSS */
+
+.abilities-content {
+    padding: 16px;
+    color: #cccccc;
+}
+
+.ability {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #4a1c1c;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ability:hover {
+    background: rgba(74, 28, 28, 0.3);
+    transform: translateY(-2px);
+}
+
+.ability h4 {
+    color: #ffd700;
+    margin: 0 0 8px 0;
+    font-size: 16px;
+}
+
+.ability-stats {
+    margin-top: 12px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    font-family: monospace;
+    color: #888888;
+}
+
+.ability[data-type="physical"] {
+    border-color: #c75d5d;
+}
+
+.ability[data-type="magical"] {
+    border-color: #8b5dc7;
+}
+
+/* Combat log styling */
+.chat-content[data-content="combat"] .message {
+    font-family: monospace;
+    padding: 4px 8px;
+    margin: 4px 0;
+    border-left: 2px solid #4a1c1c;
+}
+
+.chat-content[data-content="combat"] .hit {
+    color: #ff9999;
+}
+
+.chat-content[data-content="combat"] .miss {
+    color: #888888;
+}
+
+#aoe-indicator {
+    position: absolute;
+    border: 2px solid #00ff00;
+    border-radius: 50%;
+    pointer-events: none;
+    background: rgba(0, 255, 0, 0.1);
+    display: none;
+}
+
+#range-indicator {
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    transition: all 0.2s ease;
+}
+
+.token.affected {
+    outline: 2px solid #ff0000;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { outline-color: rgba(255, 0, 0, 1); }
+    50% { outline-color: rgba(255, 0, 0, 0.5); }
+    100% { outline-color: rgba(255, 0, 0, 1); }
+}
+
+.token.targeted {
+    outline: 3px solid #ff0000;
+    animation: targetPulse 2s infinite;
+    filter: drop-shadow(0 0 20px #e20606);
+}
+
+@keyframes targetPulse {
+    0% { outline-color: rgba(255, 0, 0, 1); }
+    50% { outline-color: rgba(255, 0, 0, 0.5); }
+    100% { outline-color: rgba(255, 0, 0, 1); }
+}
+
+.hidden {
+    opacity: 0.5;
+    filter: brightness(0.7);
+}
+
+
+
+/* Prevent tooltip overflow */
+.token {
+    z-index: 1;
+}
+
+.token:hover {
+    z-index: 2;
+}
+
+/* Dark themed combat timeline styling */
+.combat-tracker {
+    position: fixed;  /* Change from absolute to fixed */
+    top: 20px;       /* Remove bottom positioning */
+    left: 50%;
+    transform: translateX(-50%);
+
+
+    border-radius: 8px;
+    padding: 10px;
+    min-width: 400px;
+    z-index: 1000;
+}
+
+.combat-selection-message {
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid #333;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+    border-radius: 4px;
+    padding: 24px;
+    position: fixed;
+    z-index: 1000;
+    min-width: 400px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    touch-action: auto;
+    transform: none !important;
+    bottom: auto; /* Clear bottom positioning */
+}
+/* Timeline track and controls */
+.turn-order-track {
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid #333;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+    border-radius: 4px;
+    padding: 24px;
+    position: fixed;
+    z-index: 1000;
+    min-width: 600px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    touch-action: none;
+    transform: none !important;
+    bottom: auto; /* Clear bottom positioning */
+}
+
+.turn-order-track:active {
+    cursor: grabbing;
+}
+
+.turn-order-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-50%);
+}
+
+/* Token Effects */
+
+.token.stunned {
+    filter: grayscale(0.7) sepia(0.5) hue-rotate(200deg);
+    animation: stunPulse 2s infinite;
+}
+
+@keyframes stunPulse {
+    0% { filter: grayscale(0.7) sepia(0.5) hue-rotate(200deg); }
+    50% { filter: grayscale(0.7) sepia(0.7) hue-rotate(220deg); }
+    100% { filter: grayscale(0.7) sepia(0.5) hue-rotate(200deg); }
+}
+
+.token.poisoned {
+    filter: sepia(0.5) hue-rotate(70deg) saturate(1.2);
+    animation: poisonPulse 2s infinite;
+}
+
+@keyframes poisonPulse {
+    0% { filter: sepia(0.5) hue-rotate(70deg) saturate(1.2); }
+    50% { filter: sepia(0.7) hue-rotate(90deg) saturate(1.4); }
+    100% { filter: sepia(0.5) hue-rotate(70deg) saturate(1.2); }
+}
+
+
+
+/* Token container styling */
+.token-container {
+    position: relative;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    min-height: 100px;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+/* Make sure tokens are visible */
+.timeline-token {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    transition: all 0.5s ease;
+    pointer-events: auto;
+    cursor: grab;
+    filter: grayscale(90%);
+}
+
+.timeline-token:hover {
+    filter: grayscale(0%) contrast(120%);
+    border-color: #666;
+    transform: translateY(-2px);
+}
+
+.timeline-token.active {
+    transform: scale(1.15);
+    border-color: #666;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    filter: grayscale(0%);
+    z-index: 2;
+    cursor: grabbing;
+}
+
+.timeline-token.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+    z-index: 1001;
+}
+
+.timeline-token.drag-over {
+    transform: translateX(60px);
+}
+
+.drop-indicator {
+    width: 4px;
+    height: 48px;
+    background-color: #4a90e2;
+    position: absolute;
+    transform: translateX(-50%);
+    pointer-events: none;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.6);
+    z-index: 1000;
+}
+
+.token-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: grab;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    padding: 8px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.token-wrapper:not(.dragging) {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.token-wrapper:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.token-wrapper.dragging {
+    opacity: 0.5;
+    background: rgba(255, 255, 255, 0.1);
+    cursor: grabbing;
+}
+
+.token-wrapper.drag-over {
+    transform: translateX(20px);
+}
+
+.token-container.dragging-over::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 60%;
+    background: rgba(255, 255, 255, 0.3);
+    top: 20%;
+}
+
+.token-preview {
+    position: relative;
+    opacity: 0.5;
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+/* Animation classes */
+.token-fade-out {
+    opacity: 0 !important;
+    transform: translateX(0) !important;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out !important;
+}
+
+.token-slide {
+    transform: translateX(-60px) !important;
+    transition: transform 0.5s ease-out !important;
+}
+
+/* Round separator styling */
+.round-display {
+    position: absolute;
+    top: -30px;
+    left: 24px;
+    color: #ccc;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.round-separator {
+    width: 1px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 16px;
+    position: relative;
+    flex-shrink: 0;
+    pointer-events: none;
+}
+
+.round-separator::after {
+    content: attr(data-round);
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #888;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.individual-timer {
+    color: #888;
+    font-family: monospace;
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.turn-timer {
+    position: absolute;
+    top: 50%;
+    right: 160px; /* Position before the battle controls */
+    transform: translateY(-50%);
+    color: #ccc;
+    font-family: monospace;
+    font-size: 16px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #333;
+}
+
+/* Battle controls container */
+.battle-controls {
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 16px;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1000;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    touch-action: none;
+    transform: none !important;
+}
+
+/* Individual battle buttons */
+.battle-btn {
+    display: block;
+    background: rgba(30, 30, 30, 0.9);
+    color: #ccc;
+    border: 1px solid #444;
+    padding: 12px 16px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.battle-btn:hover {
+    background: rgba(40, 40, 40, 0.9);
+    color: #fff;
+    border-color: #666;
+}
+
+.combat-selection-panel {
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid #333;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+    border-radius: 4px;
+    padding: 24px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.selection-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    color: #ccc;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.selection-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.battle-btn.end-turn-btn {
+    border-color: #444;
+}
+
+.battle-btn.add-token-btn {
+    border-color: #444;
+}
+
+.battle-btn.end-combat-btn {
+    border-color: #444;
+    background: rgba(40, 20, 20, 0.9);
+}
+
+.name-tooltip {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: #888;
+    padding: 4px 8px;
+    border-radius: 2px;
+    font-size: 11px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.timeline-token:hover .name-tooltip {
+    opacity: 1;
+}
+
+/* Combat initialization styling */
+.start-combat-btn {
+    display: block; /* Ensure button is visible */
+    background: rgba(20, 20, 20, 0.95);
+    color: #ccc;
+    border: 1px solid #444;
+    padding: 12px 24px;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.start-combat-btn:hover {
+    background: rgba(40, 40, 40, 0.95);
+    color: #fff;
+    border-color: #666;
+    transform: translateY(-2px);
+}
+
+.selectable-for-combat {
+    cursor: pointer !important;
+    outline: 2px solid transparent;
+    transition: all 0.3s ease !important;
+}
+
+.selected-for-combat {
+    outline: 2px solid #666 !important;
+    transform: scale(1.05) !important;
+    z-index: 1;
+}
+
+.selection-highlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid #666;
+    animation: pulseHighlight 1.5s infinite;
+}
+
+@keyframes pulseHighlight {
+    0% { border-color: rgba(102, 102, 102, 0.2); }
+    50% { border-color: rgba(102, 102, 102, 1); }
+    100% { border-color: rgba(102, 102, 102, 0.2); }
+}
+
+/* Combat initialization message */
+.combat-selection-message {
+    color: #ccc;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 80px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Ensure proper z-index stacking */
+
+.turn-order-track,
+.battle-controls,
+.start-combat-btn {
+    z-index: 1000;
+}
+
+/* Ensure all content within is non-selectable */
+.turn-order-track *, .battle-controls * {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Prevent any transform animations */
+.turn-order-track, .battle-controls {
+    transition: none !important;
+}
+
+/* Fix timer display */
+.timer-wrapper {
+    display: flex;
+    gap: 16px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.token-timer {
+    font-family: monospace;
+    font-size: 12px;
+    color: #ccc;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 6px;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.total-timer {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: monospace;
+    font-size: 14px;
+    color: #ccc;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.total-time, .turn-time {
+    color: #ccc;
+    white-space: nowrap;
+}
+
+.initiative-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(42, 26, 26, 0.95);
+    border: 2px solid #6b2929;
+    border-radius: 8px;
+    padding: 20px;
+    color: #fff;
+    z-index: 1100;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.initiative-content {
+    text-align: center;
+}
+
+.initiative-content button {
+    background: #4a1c1c;
+    border: 1px solid #6b2929;
+    color: #fff;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.initiative-content button:hover {
+    background: #6b2929;
+    transform: scale(1.05);
+}
+
+.combat-start-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, transparent, rgba(74, 28, 28, 0.3));
+    animation: pulseOut 1s ease-out forwards;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+@keyframes pulseOut {
+    0% { opacity: 1; transform: scale(0.8); }
+    100% { opacity: 0; transform: scale(1.2); }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-20px); opacity: 0; }
+}
+
+.ap-bar-container {
+    width: 100%;
+    height: 32px;
+    position: relative;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #4a1c1c;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.ap-fill {
+    height: 100%;
+    background: #6b2929;
+    width: 0;
+    transition: width 0.3s ease;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.ap-value {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    bottom: -10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(255, 255, 255);
+    z-index: 1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.ap-update {
+    animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+    0% { background-color: #6b2929; }
+    50% { background-color: #8b3939; }
+    100% { background-color: #6b2929; }
+}
+
+.token-bars-container {
+    position: absolute;
+    bottom: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    pointer-events: none;
+}
+
+.token-bar {
+    height: 4px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.health-fill {
+    background-color: #44ff44;
+}
+
+.health-fill.warning {
+    background-color: #ffaa00;
+}
+
+.health-fill.danger {
+    background-color: #ff4444;
+}
+
+.mana-fill {
+    background-color: #4444ff;
+}
+
+.ap-fill {
+    background-color: #6b2929;
+}
+
+
+.floating-combat-text {
+    position: absolute;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    pointer-events: none;
+    z-index: 1000;
+    animation: floatUp 1s ease-out forwards;
+    transform: translateX(-50%);
+}
+
+.floating-combat-text.heal {
+    color: #44ff44;
+}
+
+.floating-combat-text.damage {
+    color: #ff4444;
+}
+
+.floating-combat-text.ap {
+    color: #6b2929;
+}
+
+.floating-combat-text.mana {
+    color: #4444ff;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -30px);
+        opacity: 0;
+    }
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) translateX(-50%); opacity: 1; }
+    100% { transform: translateY(-30px) translateX(-50%); opacity: 0; }
+}
+
+/* Targeting cursor styles */
+body.targeting {
+    cursor: crosshair;
+}
+
+body.targeting .token:hover {
+    cursor: crosshair;
+    filter: brightness(1.2);
+}
+
+body.targeting .token.out-of-range:hover {
+    cursor: not-allowed;
+    filter: brightness(0.8);
+}
+
+/* Ability targeting animation */
+.ability-targeting {
+    animation: targetingPulse 1s infinite;
+}
+
+@keyframes targetingPulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+
+
+.token-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #333;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    margin-bottom: 10px; /* Add space between tooltip and token */
+    z-index: 1000;
+}
+
+.token-name {
+    position: absolute;
+    bottom: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    font-size: 12px;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.tooltip-stats {
+    color: #ccc;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.token:hover .token-tooltip {
+    opacity: 1;
+}
+
+.tooltip-header {
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.tooltip-stats {
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+.ap-update {
+    animation: apPulse 0.3s ease;
+}
+
+@keyframes apPulse {
+    0% { background-color: #6b2929; }
+    50% { background-color: #8b3939; }
+    100% { background-color: #6b2929; }
+}
+
+.roll-container {
+    margin: 4px 0;
+    font-family: 'Courier New', monospace;
+}
+
+.roll-detail {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.roll-number {
+    color: #fff;
+    font-weight: bold;
+}
+
+.roll-number.crit {
+    color: #ff0000;
+    text-shadow: 0 0 3px #ff0000;
+    animation: critPulse 1s infinite;
+}
+
+.modifier {
+    color: #88ff88;
+}
+
+.total {
+    color: #ffff00;
+    font-weight: bold;
+}
+
+.damage {
+    color: #ff4444;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.bonus {
+    color: #88ff88;
+}
+
+.hit {
+    color: #00ff00;
+    font-weight: bold;
+    text-shadow: 0 0 3px #00ff00;
+}
+
+.miss {
+    color: #ff0000;
+    font-weight: bold;
+    text-shadow: 0 0 3px #ff0000;
+}
+
+/* Damage type colors */
+.damage-physical { color: #ffffff; }
+.damage-fire { color: #ff4400; }
+.damage-cold { color: #00ffff; }
+.damage-lightning { color: #ffff00; }
+.damage-poison { color: #00ff00; }
+.damage-psychic { color: #ff00ff; }
+.damage-necrotic { color: #800080; }
+.damage-radiant { color: #ffff00; }
+
+@keyframes critPulse {
+    0% { text-shadow: 0 0 3px #ff0000; }
+    50% { text-shadow: 0 0 10px #ff0000; }
+    100% { text-shadow: 0 0 3px #ff0000; }
+}
+
+.healing {
+    color: #00ff00;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-shadow: 0 0 3px #00ff00;
+}
+
+.effect-stun { color: #ffff00; }
+.effect-pull { color: #00ffff; }
+.effect-debuff { color: #ff4444; }
+.effect-dot { color: #ff8800; }
+
+/* Spell school colors */
+.ability-arcane { color: #ff00ff; }
+.ability-holy { color: #ffff00; }
+.ability-shadow { color: #800080; }
+.ability-nature { color: #00ff00; }
+.ability-fire { color: #ff4400; }
+.ability-frost { color: #00ffff; }
+
+.heal-roll {
+    background: rgba(0, 255, 0, 0.1);
+    border-left: 3px solid #00ff00;
+    padding: 4px 8px;
+    margin: 4px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.effect-application {
+    font-style: italic;
+    color: #aaa;
+}
+
+.ability-fan-container {
+    pointer-events: none;
+}
+
+.ability-bubble {
+    transform-origin: center center;
+}
+
+.ability-bubble.dragging {
+    opacity: 0.5;
+}
+
+.ability-bubble.drag-over {
+    border-color: #6b2929;
+    transform: scale(1.1);
+}
+
+.ability-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid #4a1c1c;
+    border-radius: 4px;
+    padding: 8px;
+    width: max-content;
+    max-width: 200px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1001;
+}
+
+.ability-bubble:hover .ability-tooltip {
+    opacity: 1;
+}
+
+.tooltip-header {
+    color: #ffd700;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.tooltip-body {
+    color: #cccccc;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.tooltip-stats {
+    color: #888888;
+    font-size: 11px;
+}
+
+.ability-card.dragging, .ability-bubble.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
+
+.ability-card.drag-over, .ability-bubble.drag-over {
+    border-color: #6b2929;
+    transform: scale(1.05);
+}
+
+/* Movement Arrow and Distance Display */
+.movement-arrow {
+    position: absolute;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.8);
+    transform-origin: left center;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.movement-arrow::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: -4px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid rgba(255, 255, 255, 0.8);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+}
+
+#distance-display {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 1001;
+    text-align: center;
+    min-width: 60px;
+}
+
+/* Confirmation Dialog */
+.confirmation-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.dialog-content {
+    background: #2a2a2a;
+    border: 2px solid #6b2929;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 300px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dialog-content h3 {
+    margin: 0 0 15px 0;
+    color: #ffd700;
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.dialog-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.confirm-btn {
+    background: #4a9eff;
+    color: white;
+}
+
+.confirm-btn:hover {
+    background: #3b8eff;
+}
+
+.cancel-btn {
+    background: #ff4a4a;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background: #ff3b3b;
+}
+
+.target-debuffs {
+    display: flex;
+    margin-top: 5px;
+}
+
+.debuff-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 5px;
+    position: relative;
+}
+
+.debuff-icon img {
+    width: 100%;
+    height: 100%;
+}
+
+.debuff-icon::after {
+    content: attr(data-duration);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 12px;
+    padding: 2px;
+    border-radius: 2px;
+}

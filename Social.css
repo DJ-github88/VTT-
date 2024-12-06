@@ -1,0 +1,391 @@
+/* Social Hub Styles */
+#socialPopup {
+    display: flex;
+    width: 320px;
+    height: 400px;
+    background-color: rgba(0, 0, 0, 0.95);
+    border: 1px solid #333;
+    color: #fff;
+    flex-direction: column;
+    position: absolute;
+    z-index: 1000;
+    top: 100px;
+    left: 100px;
+    min-height: 300px;
+}
+
+#socialPopup .popup-header {
+    background: linear-gradient(to bottom, #1a1a1a, #000000);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    cursor: move;
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+#socialPopup .tab-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+#socialPopup .tab-button {
+    background: transparent;
+    border: none;
+    color: #888;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+#socialPopup .tab-button:hover {
+    color: #ffd100;
+}
+
+#socialPopup .tab-button.active {
+    color: #ffd100;
+}
+
+#socialPopup .popup-content {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 10px;
+    min-height: 0;
+    height: 300px;
+}
+
+#socialPopup .friends-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#socialPopup .friend-entry {
+    padding: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+#socialPopup .friend-entry:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #666;
+}
+
+#socialPopup .friend-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+#socialPopup .friend-name {
+    color: #fff;
+    font-size: 14px;
+}
+
+#socialPopup .friend-status {
+    font-size: 12px;
+    color: #888;
+}
+
+#socialPopup .friend-status.online {
+    color: #00ff00;
+}
+
+#socialPopup .friend-status.offline {
+    color: #888;
+}
+
+#socialPopup .friend-level {
+    font-size: 12px;
+    color: #888;
+}
+
+#socialPopup .last-online {
+    font-size: 11px;
+    color: #666;
+}
+
+#socialPopup .popup-footer {
+    flex-shrink: 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.95);
+    border-top: 1px solid #333;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer-button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+}
+
+#footerButtonContainer {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+
+#socialPopup .social-button {
+    background: linear-gradient(to bottom, #3a3a3a, #202020);
+    border: 1px solid #333;
+    color: #ffd100;
+    padding: 5px 10px; /* Adjusted padding */
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#socialPopup .social-button:hover {
+    background: linear-gradient(to bottom, #4a4a4a, #303030);
+    border-color: #ffd100;
+}
+
+#socialPopup .social-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    color: #666;
+}
+
+/* Context menu styling */
+.friend-context-menu {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid #444;
+    padding: 5px 0;
+    min-width: 150px;
+    display: none;
+    z-index: 1001;
+}
+
+.friend-context-menu-item {
+    padding: 5px 15px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 12px;
+}
+
+.friend-context-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffd100;
+}
+
+.friend-entry.selected {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid #ffd100;
+}
+
+#socialPopup .close-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+
+
+/* Party Frame Container */
+#partyFrame {
+    position: absolute;
+    top: 200px;
+    left: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 400px;
+    min-width: 250px;
+    z-index: 100;
+}
+
+/* Party Member Container */
+#partyFrame .party-member {
+    height: 150px;
+    background-color: rgba(10, 5, 5, 0.95);
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Portrait Container */
+.party-member .character-bouble {
+    width: 85px;
+    height: 85px;
+    background: black;
+    border-radius: 42px 0 0 42px;
+    overflow: hidden;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    z-index: 3;
+}
+
+/* Bar Container */
+.party-member .bar-container {
+    position: relative;
+    height: 24px;
+    margin-bottom: 2px;
+}
+
+/* Bars Group Container */
+.party-member .health-mana-bars {
+    position: absolute;
+    left: 75px; /* Slightly overlapping portrait */
+    top: 15px;
+    width: calc(100% - 65px); /* Full width minus portrait and padding */
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* Base Bar */
+.party-member .bar {
+    width: calc(100% - 130px); /* Increased space reservation for adjustments + gap */
+    margin-right: 20px; /* Explicit gap between bar and adjustments */
+    height: 24px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0 12px 12px 0;
+    position: absolute;
+    left: 0;
+    overflow: hidden;
+}
+
+/* Base bar fills without transition */
+/* Fill elements */
+.party-member .health,
+.party-member .mana,
+.party-member .ap {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: width;
+    transition: width 1.3s ease-in-out;
+}
+
+
+
+/* Individual bar colors */
+.party-member .health {
+    background-color: #32CD32;
+}
+
+.party-member .mana {
+    background-color: #0000ff;
+}
+
+.party-member .ap {
+    background-color: #ffd700;
+}
+
+/* Bar Text */
+.party-member .bar-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 24px;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 1;
+}
+
+/* Adjustment Controls */
+.party-member .adjustment-controls {
+    position: absolute;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 24px;
+    z-index: 2;
+}
+
+/* Adjustment Buttons */
+.party-member .adjustment-button {
+    width: 24px;
+    height: 24px;
+    background-color: #4a1c1c;
+    color: #b39c9c;
+    border: 1px solid #6a2c2c;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Adjustment Input */
+.party-member .adjustment-input {
+    width: 40px;
+    height: 24px;
+    padding: 0 4px;
+    background-color: #261c1c;
+    color: #b39c9c;
+    border: 1px solid #4a1c1c;
+    border-radius: 4px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Member Name */
+.party-member .member-name {
+    position: absolute;
+    top: -25px;
+    left: 10px;
+    color: #ffd700;
+    font-family: 'Trajan Pro', serif;
+    font-size: 20px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+    z-index: 3;
+}
+
+/* Buff Container */
+.party-member .buff-container {
+    position: absolute;
+    bottom: 10px;
+    left: 85px;
+    right: 10px;
+    height: 40px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+
+
+/* Ripple effect */
+.party-member .ripple {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    animation: party-ripple-animation 0.6s forwards;
+}
+
+@keyframes party-ripple-animation {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}

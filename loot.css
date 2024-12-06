@@ -1,0 +1,292 @@
+/* Loot Tab Container */
+.loot-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: #d4d4d4;
+    margin-bottom: 1rem;
+}
+
+.loot-table thead {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.loot-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: normal;
+    border-bottom: 2px solid rgba(150, 150, 150, 0.1);
+    color: #d4af37;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+
+.loot-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(150, 150, 150, 0.05);
+}
+
+.loot-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.loot-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Table Columns */
+.item-icon {
+    width: 40px;
+}
+
+.item-icon img {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.item-name {
+    font-weight: 500;
+}
+
+.item-rarity {
+    width: 100px;
+}
+
+.item-chance {
+    width: 80px;
+    text-align: right;
+}
+
+/* Rarity Colors in Table */
+.loot-table tr.common .item-name { color: #ffffff; }
+.loot-table tr.uncommon .item-name { color: #1eff00; }
+.loot-table tr.rare .item-name { color: #0070dd; }
+.loot-table tr.epic .item-name { color: #a335ee; }
+.loot-table tr.legendary .item-name { color: #ff8000; }
+
+/* Loot Orbs */
+.loot-orb {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: orbFloat 2s infinite ease-in-out;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.loot-orb::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    animation: pulseGlow 2s infinite;
+}
+
+.loot-orb::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 40%;
+    height: 40%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    filter: blur(2px);
+}
+
+/* Updated orb styles with better glow effects */
+.loot-orb.common {
+    background: radial-gradient(circle at 30% 30%, #ffffff, #a0a0a0);
+}
+.loot-orb.common::before {
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.7);
+}
+
+.loot-orb.uncommon {
+    background: radial-gradient(circle at 30% 30%, #1eff00, #0a6500);
+}
+.loot-orb.uncommon::before {
+    box-shadow: 0 0 15px 5px rgba(30, 255, 0, 0.7);
+}
+
+.loot-orb.rare {
+    background: radial-gradient(circle at 30% 30%, #0070dd, #003866);
+}
+.loot-orb.rare::before {
+    box-shadow: 0 0 15px 5px rgba(0, 112, 221, 0.7);
+}
+
+.loot-orb.epic {
+    background: radial-gradient(circle at 30% 30%, #a335ee, #580285);
+}
+.loot-orb.epic::before {
+    box-shadow: 0 0 15px 5px rgba(163, 53, 238, 0.7);
+}
+
+.loot-orb.legendary {
+    background: radial-gradient(circle at 30% 30%, #ff8000, #7a3d00);
+}
+.loot-orb.legendary::before {
+    box-shadow: 0 0 15px 5px rgba(255, 128, 0, 0.7);
+}
+
+@keyframes pulseGlow {
+    0% { 
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.7;
+        transform: scale(1.5);
+    }
+    100% { 
+        opacity: 0.3;
+        transform: scale(1);
+    }
+}
+
+@keyframes orbFloat {
+    0%, 100% { 
+        transform: translateY(0) scale(1);
+    }
+    50% { 
+        transform: translateY(-5px) scale(1.05);
+    } }
+
+    .loot-orb.gold {
+        background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+    }
+    .loot-orb.gold::before {
+        box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.7);
+    }
+    
+    .loot-orb.silver {
+        background: radial-gradient(circle at 30% 30%, #c0c0c0, #808080);
+    }
+    .loot-orb.silver::before {
+        box-shadow: 0 0 15px 5px rgba(192, 192, 192, 0.7);
+    }
+    
+    .loot-orb.copper {
+        background: radial-gradient(circle at 30% 30%, #b87333, #5d2e0f);
+    }
+    .loot-orb.copper::before {
+        box-shadow: 0 0 15px 5px rgba(184, 115, 51, 0.7);
+    }
+    
+
+
+.loot-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-top: 1px solid rgba(150, 150, 150, 0.1);
+}
+
+/* Roll Loot Button */
+.roll-loot-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #4a1c1c, #2a1111);
+    border: 1px solid #6a2c2c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.roll-loot-button img {
+    width: 40px;
+    height: 40px;
+    opacity: 0.9;
+}
+
+.roll-loot-button:hover {
+    background: linear-gradient(135deg, #5a2c2c, #3a2121);
+    border-color: #7a3c3c;
+}
+
+.roll-loot-button:active {
+    background: linear-gradient(135deg, #3a1c1c, #2a1111);
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Animations */
+@keyframes orbFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+@keyframes orbSpawn {
+    0% {
+        transform: scale(0) rotate(180deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(-20deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.loot-orb.spawning {
+    animation: orbSpawn 0.5s ease-out forwards;
+}
+
+/* Collection Animation Particles */
+.loot-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1001;
+    opacity: 0.8;
+}
+
+/* Scrollbar Styling */
+.loot-table-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.loot-table-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.loot-table-container::-webkit-scrollbar-thumb {
+    background: rgba(150, 150, 150, 0.2);
+    border-radius: 4px;
+}
+
+.loot-table-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(150, 150, 150, 0.3);
+}
+
+.loot-table tbody:empty::after {
+    content: "No items available";
+    display: block;
+    text-align: center;
+    padding: 2rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}

@@ -1,0 +1,912 @@
+/* ===========================
+   General Styles
+   =========================== */
+
+/* Apply box-sizing globally for easier sizing calculations */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Font Family remains unchanged */
+body, button, input, select, textarea {
+    font-family: 'Friz Quadrata', sans-serif;
+    color: #ffffff;
+}
+
+/* Smooth Transitions */
+* {
+    transition: all 0.2s ease;
+}
+
+/* ===========================
+   Toggle Buttons
+   =========================== */
+.toggle-button-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 5px;
+    background-color: rgba(20, 20, 20, 0.95); /* Darker background */
+    border: 2px solid #4a1c1c;               /* Thicker, dark crimson border */
+    border-radius: 8px;                       /* More pronounced rounding */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);/* Enhanced shadow */
+}
+
+.toggle-button {
+    padding: 10px 16px;
+    background-color: rgba(30, 30, 30, 0.95);/* Darker button background */
+    border: 2px solid #555;                   /* Thicker border */
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    text-shadow: 1px 1px 2px #000;            /* Text shadow for depth */
+}
+
+.toggle-button:hover {
+    background-color: rgba(40, 40, 40, 0.95);/* Slightly lighter on hover */
+    border-color: #777;                       /* Lighter border on hover */
+}
+
+.toggle-button.active {
+    background-color: #a335ee;                /* Epic Purple for active state */
+    border-color: #d77cff;
+    box-shadow: 0 0 10px rgba(163, 53, 238, 0.7);/* Glowing shadow */
+}
+
+/* ===========================
+   Preview Grid and Tiles
+   =========================== */
+
+/* Preview Grid */
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(15, 42px); /* Adjusted to match tile size (40px + 2*2px border) */
+    grid-template-rows: repeat(5, 42px);     /* Adjusted to match tile size (40px + 2*2px border) */
+    gap: 0px;                                 /* Consistent gap */
+    padding: 0px;                             /* Consistent padding */
+    margin-bottom: 0px;
+    width: fit-content;
+    position: relative;
+    background-color: rgba(20, 20, 20, 0.95); /* Darker background for grim tone */
+    border: 2px solid #4a1c1c;               /* Thicker, dark crimson border */
+    border-radius: 8px;                       /* Rounded corners for depth */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);/* Enhanced shadow for atmosphere */
+}
+
+/* Preview Tile */
+.preview-tile {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #6a2c2c;               /* Dark crimson border */
+    background-color: rgba(20, 20, 20, 0.95);/* Darker tile background */
+    border-radius: 6px;                       /* Rounded corners */
+    cursor: pointer;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.7);/* Inner shadow for depth */
+    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;                       /* For positioning child elements */
+}
+
+/* Hover State */
+.preview-tile:hover {
+    background-color: rgba(30, 30, 30, 0.95);/* Slightly lighter on hover */
+    border-color: #a335ee;                    /* Purple accent on hover */
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.8);/* Enhanced inner shadow */
+}
+
+/* Selected State */
+.preview-tile.selected {
+    background-color: rgba(74, 28, 28, 0.7); /* Dark crimson selected background */
+    border-color: #d77cff;                    /* Lighter purple border */
+    box-shadow: 0 0 10px rgba(215, 124, 255, 0.7);/* Glowing shadow */
+}
+
+/* ===========================
+   Preview Items
+   =========================== */
+.preview-item {
+    width: 40px; /* Reduced size to fit within 40px tile minus borders */
+    height: 40px; /* Reduced size to fit within 40px tile minus borders */
+    background: rgba(30, 30, 30, 0.95);
+    border: 2px solid #555;
+    border-radius: 6px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 2px; /* Centering within 40px tile: (40 - 36)/2 */
+    left: 2px; /* Centering within 40px tile */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    user-select: none;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.preview-item:hover {
+    border-color: #ffd700; /* Gold border on hover */
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);/* Glowing shadow */
+}
+
+.preview-item.edit-mode-item {
+    border: 2px solid #d77cff;
+    box-shadow: 0 0 10px rgba(215, 124, 255, 0.7);
+}
+
+/* ===========================
+   Highlight Overlay
+   =========================== */
+.drop-zone-highlight {
+    position: absolute;
+    pointer-events: none;
+    z-index: 100;
+    background-color: rgba(163, 53, 238, 0.3); /* Purple Highlight */
+    border: 2px solid #d77cff;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    width: 44px;  /* Same as grid tile */
+    height: 44px; /* Same as grid tile */
+    top: 0;
+    left: 0;
+}
+
+/* ===========================
+   Controls Container
+   =========================== */
+.item-gen-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    width: fit-content;
+    padding: 8px;
+    background: rgba(20, 20, 20, 0.95);     /* Darker background */
+    border: 2px solid #4a1c1c;               /* Thicker, dark crimson border */
+    border-radius: 8px;                       /* More pronounced rounding */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);/* Enhanced shadow */
+}
+
+.item-gen-controls button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    
+    background: rgba(30, 30, 30, 0.95);     /* Darker button background */
+    border: 2px solid #555;                  /* Thicker border */
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.7);/* Inner shadow for depth */
+    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.item-gen-controls button i {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.item-gen-controls button:hover {
+    background-color: rgba(40, 40, 40, 0.95);/* Slightly lighter on hover */
+    border-color: #777;                       /* Lighter border on hover */
+}
+
+.item-gen-controls button:active {
+    background-color: #a335ee;                /* Epic Purple on active */
+    border-color: #d77cff;
+    box-shadow: 0 0 10px rgba(163, 53, 238, 0.7);/* Glowing shadow */
+}
+
+.item-gen-controls button.active {
+    background-color: #a335ee;                /* Epic Purple for active state */
+    border-color: #d77cff;
+    box-shadow: 0 0 15px rgba(215, 124, 255, 0.9);/* Enhanced glowing shadow */
+}
+
+/* Tooltip Container */
+.item-tooltip {
+    position: absolute;
+    background: rgba(10, 10, 10, 0.95);
+    border: 2px solid #4a1c1c;
+    border-radius: 8px;
+    padding: 15px;
+    color: #ffffff;
+    font-family: 'Friz Quadrata', sans-serif;
+    font-size: 14px;
+    max-width: 360px;
+    line-height: 1.6;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.item-tooltip.visible {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Rarity Colors for Item Name */
+.common .item-name {
+    color: #ffffff; /* White */
+}
+
+.uncommon .item-name {
+    color: #1eff00; /* Green */
+}
+
+.rare .item-name {
+    color: #0070dd; /* Blue */
+}
+
+.epic .item-name {
+    color: #a335ee; /* Purple */
+}
+
+.legendary .item-name {
+    color: #ff8000; /* Orange */
+}
+
+/* Item Name */
+.item-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Damage Dice */
+.item-damage {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #ffffff;
+    text-shadow: 1px 1px 1px #000;
+}
+
+/* Armor Value */
+.item-armor {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #ffffff;
+    text-shadow: 1px 1px 1px #000;
+}
+
+/* Slot and Type Line */
+.item-slot-type {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.item-slot-type .item-slot {
+    text-align: left;
+}
+
+.item-slot-type .item-type {
+    text-align: right;
+}
+
+/* Base Stat Line */
+.stat-line.base-stat {
+    margin-left: 10px;
+    color: #ffffff;
+    text-shadow: 1px 1px 1px #000;
+}
+
+/* Effects Prefix */
+.effects-prefix {
+    display: block;
+    margin-top: 8px;
+    font-weight: bold;
+    color: #1eff00; /* Green */
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Derived Stats */
+.effect-description {
+    margin-left: 20px;
+    color: #ffffff;
+    text-shadow: 1px 1px 1px #000;
+}
+
+/* Description */
+.item-description {
+    font-size: 14px;
+    font-style: italic;
+    margin-top: 10px;
+    color: #ffffff;
+    text-shadow: 1px 1px 1px #000;
+}
+
+/* Sell Price */
+.item-sell-price {
+    font-size: 14px;
+    color: #ffd700;
+    text-shadow: 1px 1px 1px #000;
+    margin-top: 10px;
+}
+
+/* Coin Styles */
+.coin.gold {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.coin.silver {
+    color: #c0c0c0;
+}
+
+.coin.copper {
+    color: #b87333;
+}
+
+
+/* ===========================
+   Confirmation Dialog
+   =========================== */
+.draw-confirmation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to bottom, rgba(20, 20, 20, 0.98), rgba(10, 10, 10, 0.98)); /* Darker gradient */
+    border: 2px solid #4a1c1c;
+    border-radius: 8px;
+    padding: 25px;
+    width: 320px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.draw-confirmation h3 {
+    color: #ffd700;
+    margin: 0 0 20px 0;
+    font-size: 1.3em;
+    text-align: center;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.draw-confirmation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.draw-confirmation button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Friz Quadrata', sans-serif;
+    font-size: 0.95em;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(163, 53, 238, 0.7);
+}
+
+.draw-confirmation .confirm-btn {
+    background: #a335ee; /* Epic Purple */
+    color: #fff;
+}
+
+.draw-confirmation .confirm-btn:hover {
+    background: #d77cff;
+}
+
+.draw-confirmation .cancel-btn {
+    background: #555555;
+    color: #fff;
+}
+
+.draw-confirmation .cancel-btn:hover {
+    background: #777777;
+}
+
+/* ===========================
+   Item Generation Form
+   =========================== */
+.item-gen-form {
+    padding: 20px;
+    background-color: rgba(20, 20, 20, 0.95);
+    border: 2px solid #4a1c1c;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);/* Enhanced shadow */
+}
+
+.item-gen-form input,
+.item-gen-form textarea,
+.item-gen-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: rgba(30, 30, 30, 0.95);
+    border: 2px solid #555;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    box-sizing: border-box;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.item-gen-form label {
+    color: #ffd700;
+    font-family: 'Friz Quadrata', sans-serif;
+    margin-bottom: 6px;
+    display: block;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.item-gen-form button {
+    padding: 12px 24px;
+    background-color: #1eff00; /* Uncommon Green */
+    border: none;
+    border-radius: 6px;
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(30, 255, 0, 0.7);
+}
+
+.item-gen-form button:hover {
+    background-color: #23a600;
+}
+
+.size-inputs {
+    display: flex;
+    gap: 10px;
+}
+
+.size-inputs input {
+    width: 50%;
+    padding: 8px;
+    background-color: rgba(30, 30, 30, 0.95);
+    border: 2px solid #555;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* ===========================
+   Draw Mode Styles
+   =========================== */
+.preview-grid.draw-mode {
+    cursor: crosshair;
+}
+
+.preview-grid.draw-mode .preview-tile {
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.preview-grid.draw-mode .preview-tile:hover {
+    background-color: rgba(74, 28, 28, 0.4);
+    border-color: #d77cff;
+}
+
+.draw-button svg {
+    width: 24px;
+    height: 24px;
+}
+
+.draw-button.active {
+    background-color: #a335ee; /* Epic Purple */
+    border-color: #d77cff;
+    box-shadow: 0 0 10px rgba(215, 124, 255, 0.7);/* Glowing shadow */
+}
+
+/* ===========================
+   Edit Tooltip Styles
+   =========================== */
+/* Edit Tooltip Container */
+.item-edit-tooltip {
+    /* Removed background image to align with multi-step design */
+    border: 2px solid #4a1c1c; /* Retain border */
+    padding: 20px;
+    color: #fff;
+    font-family: 'Friz Quadrata', sans-serif;
+    font-size: 14px;
+    max-width: 500px; /* Increased size for multi-step */
+    line-height: 1.6;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.85);
+    background-blend-mode: multiply;
+    background-size: contain;
+    background-position: center;
+    position: absolute;
+    z-index: 9999;
+
+    /* Transition for smoother appearance */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: scale(0.95);
+    opacity: 0;
+}
+
+.item-edit-tooltip.visible {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Item Name Input */
+.item-edit-name {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffd700; /* Gold color */
+    background: #2b2b2b;
+    border: 2px solid #555;
+    border-radius: 6px;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Labels */
+.item-edit-tooltip label {
+    display: block;
+    margin-bottom: 6px;
+    color: #ffd700; /* Gold color */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Value Container */
+.value-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+/* Input Fields */
+.item-edit-tooltip input[type="text"],
+.item-edit-tooltip input[type="number"],
+.item-edit-tooltip select,
+.item-edit-tooltip textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #555;
+    border-radius: 6px;
+    background: #3a3a3a;
+    color: #fff;
+    font-size: 14px;
+    box-sizing: border-box;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.item-edit-tooltip input[type="text"]:focus,
+.item-edit-tooltip input[type="number"]:focus,
+.item-edit-tooltip select:focus,
+.item-edit-tooltip textarea:focus {
+    outline: none;
+    border-color: #ffd700; /* Gold highlight on focus */
+}
+
+/* Custom Select */
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select select {
+    width: 100%;
+    padding: 10px;
+    appearance: none;
+    background: #3a3a3a;
+    border: 2px solid #555;
+    color: #fff;
+    border-radius: 6px;
+    font-family: 'Friz Quadrata', sans-serif;
+    font-size: 14px;
+}
+
+.custom-select::after {
+    content: '▼';
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    color: #fff;
+    pointer-events: none;
+    font-size: 14px;
+    text-shadow: 1px 1px 1px #000;
+}
+
+/* Checkbox */
+.item-edit-tooltip input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.3);
+    cursor: pointer;
+}
+
+/* Stats Container */
+.stats-container {
+    display: grid; /* Grid layout for better alignment */
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.stat-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-row label {
+    margin-bottom: 5px;
+    color: #ffd700; /* Gold color */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.stat-row input {
+    padding: 8px;
+    background: #2b2b2b;
+    border: 2px solid #555;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+    text-shadow: 1px 1px 1px #000;
+}
+
+/* Textarea */
+.tooltip-description {
+    width: 100%;
+    padding: 10px;
+    background: #2b2b2b;
+    border: 2px solid #555;
+    color: #fff;
+    border-radius: 6px;
+    resize: vertical;
+    font-size: 14px;
+    box-sizing: border-box;
+    text-shadow: 1px 1px 1px #000;
+}
+
+/* Save Button */
+.save-item-btn {
+    width: 100%;
+    padding: 12px 0;
+    background: #1eff00; /* Uncommon Green */
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(30, 255, 0, 0.7);
+}
+
+.save-item-btn:hover {
+    background: #23a600;
+}
+
+/* ===========================
+   Navigation Buttons
+   =========================== */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.navigation-buttons button {
+    flex: 1;
+    margin: 0 5px;
+    background: rgba(30, 30, 30, 0.95);
+    border: 2px solid #555;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.7);
+}
+
+.navigation-buttons button:hover {
+    background-color: rgba(40, 40, 40, 0.95);/* Slightly lighter on hover */
+    border-color: #777;                       /* Lighter border on hover */
+}
+
+.navigation-buttons button:active {
+    background-color: #a335ee;                /* Epic Purple on active */
+    border-color: #d77cff;
+    box-shadow: 0 0 10px rgba(163, 53, 238, 0.7);/* Glowing shadow */
+}
+
+.navigation-buttons button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ===========================
+   Multi-Step Tooltip Animations
+   =========================== */
+.tooltip-step {
+    display: none;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.5s ease;
+}
+
+.tooltip-step.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ===========================
+   Responsive Design Enhancements
+   =========================== */
+@media (max-width: 500px) {
+    .preview-grid {
+        grid-template-columns: repeat(10, 44px); /* Adjust columns for smaller screens */
+        grid-template-rows: repeat(3, 44px);     /* Adjust rows for smaller screens */
+    }
+
+    .item-tooltip, .item-edit-tooltip {
+        max-width: 90%;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+}
+
+
+/* ===========================
+   Additional Adjustments
+   =========================== */
+
+/* Ensure that images fit within preview tiles without overflow */
+.preview-item .item-image,
+.inventory-item .item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensure images fit within tiles */
+    pointer-events: none;
+    user-select: none;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: center;
+}
+
+/* Ensure that the grid container doesn't have unexpected padding or margins */
+.preview-grid {
+    margin: 0 auto; /* Center the grid horizontally */
+}
+
+/* Adjust z-index for drop zone highlight to appear above tiles */
+.drop-zone-highlight {
+    z-index: 101; /* Above .preview-item which is 10 */
+}
+
+/* ===========================
+   Additional Thematic Enhancements
+   =========================== */
+
+/* Navigation Arrow Buttons */
+.navigation-arrow {
+    background: rgba(30, 30, 30, 0.95);
+    border: 2px solid #555;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 8px;
+    transition: background-color 0.2s, border-color 0.2s;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.7);
+}
+
+.navigation-arrow:hover {
+    background-color: rgba(40, 40, 40, 0.95);
+    border-color: #777;
+}
+
+.navigation-arrow:active {
+    background-color: #a335ee;
+    border-color: #d77cff;
+    box-shadow: 0 0 10px rgba(163, 53, 238, 0.7);
+}
+
+
+/* ===========================
+   Thematic Enhancements
+   =========================== */
+
+/* Add any additional thematic styles here if needed */
+
+/* Example: Adding a header for the tooltip */
+.item-edit-tooltip .tooltip-header {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffd700; /* Gold color */
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Example: Adding icons or decorative elements */
+.item-edit-tooltip .tooltip-decor {
+    width: 100%;
+    height: 2px;
+    background-color: #a335ee; /* Purple line */
+    margin-bottom: 15px;
+}
+
+
+/* Custom Confirmation Modal Styles */
+.custom-confirm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.custom-confirm-modal .modal-content {
+    background-color: #2b2b2b;
+    border: 2px solid #4a1c1c;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 300px;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.custom-confirm-modal .modal-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #4a1c1c;
+}
+
+.custom-confirm-modal .modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.custom-confirm-modal .modal-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.custom-confirm-modal .modal-button.confirm {
+    background-color: #4a1c1c;
+    color: white;
+}
+
+.custom-confirm-modal .modal-button.cancel {
+    background-color: #333;
+    color: white;
+}
+
+.custom-confirm-modal .modal-button.confirm:hover {
+    background-color: #6b2929;
+}
+
+.custom-confirm-modal .modal-button.cancel:hover {
+    background-color: #444;
+}

@@ -1,0 +1,102 @@
+#creatureLibrary.popup {
+    position: fixed; /* Position relative to the viewport */
+    top: 0;
+    right: -270px; /* Start off-screen to the right (adjust based on width) */
+    width: 450px;
+    height: 50%;
+    background-color: rgba(0, 0, 0, 0.98); /* Black background */
+    border: 2px solid #333; /* Dark grey border */
+    padding: 15px;
+    overflow-y: auto;
+    z-index: 1000;
+    
+}
+
+/* Popup Header for Creature Library */
+#creatureLibrary.popup .popup-header {
+    margin: -15px -15px 15px -15px;
+    padding: 10px;
+    background-color: rgba(20, 20, 20, 0.98); /* Dark header */
+    border-bottom: 1px solid #444;
+    cursor: move; /* Draggable */
+    user-select: none;
+}
+
+#creatureLibrary.popup .popup-header h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Creature Items in Library */
+#creatureLibrary.popup .creature-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    margin: 4px 0;
+    background-color: rgba(20, 20, 20, 0.98); /* Dark item background */
+    border: 1px solid #333;
+    color: #eee;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#creatureLibrary.popup .creature-item:hover {
+    background-color: #333;
+    border-color: #444;
+    transform: translateX(3px);
+    color: #fff;
+    /* Subtle animation */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Custom Scrollbar for Creature Library */
+#creatureLibrary.popup::-webkit-scrollbar {
+    width: 6px;
+}
+
+#creatureLibrary.popup::-webkit-scrollbar-track {
+    background: rgba(50, 50, 50, 0.98); /* Dark grey track */
+}
+
+#creatureLibrary.popup::-webkit-scrollbar-thumb {
+    background: #666; /* Medium grey thumb */
+    border-radius: 3px;
+}
+
+#creatureLibrary.popup::-webkit-scrollbar-thumb:hover {
+    background: #888; /* Lighter grey on hover */
+}
+
+.creature-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #4a1c1c;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.creature-item:hover {
+    background-color: rgba(74, 28, 28, 0.5);
+}
+
+.creature-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.creature-item span {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.popup-content {
+    max-height: 500px;
+    overflow-y: auto;
+}
+

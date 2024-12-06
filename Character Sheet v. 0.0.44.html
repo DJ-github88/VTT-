@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grim Souls Character Sheet</title>
+    <link rel="stylesheet" href="combat.css">
+    <link rel="stylesheet" href="vtt.css">
+    <link rel="stylesheet" href="chat.css">
+    <link rel="stylesheet" href="CharacterSheet.css">
+    <link rel="stylesheet" href="currency.css">
+
+    <link rel="stylesheet" href="Inventory.css">
+    <link rel="stylesheet" href="itemgeneration.css">
+    <link rel="stylesheet" href="loot.css">
+    <link rel="stylesheet" href="Creaturelibrary.css">
+    <link rel="stylesheet" href="Social.css">
+    <link rel="stylesheet" href="Spellbook.css">
+    <link rel="stylesheet" href="talents.css">
+    <link rel="stylesheet" href="Menu.css">
+    <link rel="stylesheet" href="Actionbars.css">
+    <link rel="stylesheet" href="Popup.css">
+    <link rel="stylesheet" href="Navigation.css">
+    <link rel="stylesheet" href="Hotkeys.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Cinzel', serif;
+            background-color: #0a0505;
+            color: #8a7b7b;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="gif-backdrop" src="https://i.gifer.com/75xZ.gif"></div>
+    <div id="vtt-container">
+        <div id="vtt-background">
+          <img id="background-image" src="https://i.etsystatic.com/38888920/r/il/d21535/4633098127/il_794xN.4633098127_5aet.jpg" alt="Background">
+          
+          <div id="grid-overlay"></div>
+          <div id="movement-arrow" style="display: none;"></div>
+          <div id="distance-display" style="display: none;"></div>
+        </div>
+    </div>
+   
+    <div id="messageContainer"></div>
+
+
+    
+
+
+<div id="combat-tracker">
+
+</div>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <div class="chat-tabs">
+            <div class="chat-tab" data-tab="chat">Chat</div>
+            <div class="chat-tab" data-tab="combat">Combat</div>
+            <div class="chat-tab" data-tab="loot">Loot</div>
+        </div>
+    </div>
+    <div class="chat-content active" data-content="chat"></div>
+    <div class="chat-content" data-content="combat"></div>
+    <div class="chat-content" data-content="loot"></div>
+    <div class="chat-input-container">
+        <textarea class="chat-input" placeholder="Type your message..."></textarea>
+    </div>
+</div>
+<!-- Tooltip for Buff Details -->
+<div id="buffTooltip" class="buff-tooltip" style="display: none;"></div>
+
+
+
+
+<div class="character-info"> 
+    <div id="tokenName">Beadle</div>
+    <div class="character-bouble">
+        <img id="characterBouble" src="https://i.ibb.co/3hq1jZc/Wizard.webp" alt="Character Bouble">
+        <input type="file" id="imageUpload" accept="image/*">
+    </div>
+    
+    <div class="health-mana-bars">
+        <div class="bar-container">
+            <div class="bar">
+                <div class="health" id="healthBar"></div>
+                <div class="bar-text">Health: <span id="healthValue"></span></div>
+            </div>
+            <div class="adjustment-controls">
+                <button id="takeDamageButton" class="adjustment-button">-</button>
+                <input type="number" id="healthAdjustAmount" class="adjustment-input" placeholder="Amount" min="0">
+                <button id="healButton" class="adjustment-button">+</button>
+            </div>
+        </div>
+        <div class="bar-container">
+            <div class="bar">
+                <div class="mana" id="manaBar"></div>
+                <div class="bar-text">Mana: <span id="manaValue"></span></div>
+            </div>
+            <div class="adjustment-controls">
+                <button id="useManaButton" class="adjustment-button">-</button>
+                <input type="number" id="manaAdjustAmount" class="adjustment-input" placeholder="Amount" min="0">
+                <button id="regenManaButton" class="adjustment-button">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Moved buff display outside health-mana-bars -->
+    <div id="buffDisplay" class="buff-display">
+        <h2>Active Buffs</h2>
+        <div id="buffIcons" class="buff-icons">
+            <!-- Buff icons will be dynamically inserted here -->
+        </div>
+    </div>
+</div>
+    
+    
+
+    <!-- Target Display -->
+    <div id="targetDisplay" style="display: none;">
+        <div class="target-content">
+            <div class="target-name" id="targetName"></div>
+            <div class="health-mana-bars">
+                <div class="bar-container">
+                    <div class="bar">
+                        <div id="targetHealthBar" class="health"></div>
+                        <div id="targetHealthValue" class="bar-text"></div>
+                    </div>
+                </div>
+                <div class="bar-container">
+                    <div class="bar">
+                        <div id="targetManaBar" class="mana"></div>
+                        <div id="targetManaValue" class="bar-text"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="character-bouble">
+                <img id="targetPortrait" src="" alt="">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="creatureSheetPopup" class="popup" style="display: none;">
+        <div class="sheet-header">
+            <h2></h2>
+            <div class="tab-buttons">
+                <button class="tab-button active" data-tab="stats">Stats</button>
+                <button class="tab-button" data-tab="abilities">Abilities</button>
+                <button class="tab-button" data-tab="notes">Notes</button>
+                <button class="tab-button" data-tab="loot">Loot</button>
+            </div>
+            <span class="close-button">X</span>
+        </div>
+    
+        <div class="sheet-background"></div>
+        
+        <div class="sheet-content">
+            <div class="tab-content stats-content" style="display: block;">
+                <div class="creature-stats">
+                    <div class="stat-group">
+                        <div class="stat-item">
+                            <label>Health:</label>
+                            <span class="health-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Mana:</label>
+                            <span class="mana-value"></span>
+                        </div>
+                    </div>
+                    <div class="stat-group">
+                        <div class="stat-item">
+                            <label>Constitution:</label>
+                            <span class="constitution-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Strength:</label>
+                            <span class="strength-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Agility:</label>
+                            <span class="agility-value"></span>
+                        </div>
+                    </div>
+                    <div class="stat-group">
+                        <div class="stat-item">
+                            <label>Intelligence:</label>
+                            <span class="intelligence-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Spirit:</label>
+                            <span class="spirit-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Charisma:</label>
+                            <span class="charisma-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Health Regen:</label>
+                            <span class="healthRegen-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Mana Regen:</label>
+                            <span class="manaRegen-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Damage:</label>
+                            <span class="damage-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Ranged Damage:</label>
+                            <span class="rangedDamage-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Spell Damage:</label>
+                            <span class="spellDamage-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Healing:</label>
+                            <span class="healing-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Armor (AC):</label>
+                            <span class="armor-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Critical Chance:</label>
+                            <span class="criticalChance-value"></span>
+                        </div>
+                        <div class="stat-item">
+                            <label>Movement Speed:</label>
+                            <span class="movementSpeed-value"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content abilities-content" style="display: none;">
+                <div class="abilities-list">
+                    <div class="ability">
+                        <h4>Basic Attack</h4>
+                        <p>A standard melee attack that deals physical damage.</p>
+                        <div class="ability-stats">
+                            <span>Damage: 1d8 + 3</span>
+                            <span>Type: Physical</span>
+                        </div>
+                    </div>
+                    <div class="ability">
+                        <h4>Special Ability</h4>
+                        <p>A unique power that defines this creature.</p>
+                        <div class="ability-stats">
+                            <span>Damage: 2d6 + 4</span>
+                            <span>Type: Magical</span>
+                            <span>Cooldown: 3 rounds</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content notes-content" style="display: none;">
+                <textarea class="notes-area" placeholder="Enter notes about this creature..."></textarea>
+                <div class="notes-history">
+                    <h4>Previous Encounters</h4>
+                    <div class="note-entries"></div>
+                </div>
+            </div>
+            
+            <div class="tab-content loot-content" data-content="loot" style="display: none;">
+                <div class="loot-header">
+                    <h3>Available Loot</h3>
+                </div>
+            
+                <div class="loot-table-container">
+                    <table class="loot-table">
+                        <thead>
+                            <tr>
+                                <th>Items</th>
+                                <th>Name</th>
+                                <th>Rarity</th>
+                                <th>Drop %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Items will be added here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            
+                <div class="loot-controls">
+                    <button class="roll-loot-button">
+                        <img src="https://i.ibb.co/MCLCSqT/6729800.png" alt="Dice">
+                        Roll Loot
+                    </button>
+                </div>
+            </div>
+        
+        <!-- Add this new tooltip div at the body level -->
+        <div id="itemTooltip" class="item-tooltip" style="display: none;">
+            <div class="tooltip-header">
+                <span class="item-name"></span>
+                <span class="item-rarity"></span>
+            </div>
+            <div class="tooltip-content">
+                <div class="item-description"></div>
+                <div class="item-stats"></div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Emcumbrance Status Icon -->
+    <div id="encumbranceIcon" style="display: none;"></div>
+    
+        <!-- Inventory Popup -->
+        <div id="inventoryPopup" class="popup">
+            <div class="popup-header">
+                <h2>Bags</h2>
+                <button id="close-button" onclick="togglePopup('inventoryPopup')">X</button>
+            </div>
+            <div class="popup-content">
+                
+                <button id="clearInventoryButton">Clear Bags</button>
+                <div class="inventory-grid" id="inventoryGrid"></div>
+            </div>
+        </div>
+<!-- Item Library Popup -->
+<div id="itemLibrary" class="popup" style="display: none;">
+    <div class="popup-header">
+        <h2>Item Library</h2>
+        <span class="close">X</span>
+    </div>
+
+    <div class="popup-content">
+        <!-- Toggle Buttons at the top -->
+        <div class="toggle-button-container">
+            <button class="toggle-button active" id="libraryViewBtn">
+                <!-- Icon for Library View -->
+            </button>
+            <button class="toggle-button" id="generationViewBtn">
+                <!-- Icon for Generation View -->
+            </button>
+        </div>
+
+        <!-- Original Item Library View -->
+        <div id="itemLibraryView" class="section">
+            <input type="text" id="itemSearch" class="item-library-search" placeholder="Search items...">
+            <div id="itemList">
+                <!-- Items will be populated here -->
+            </div>
+
+            <!-- Currency Generator (if applicable) -->
+            <!-- ... -->
+        </div>
+
+        <!-- Item Generation View -->
+        <div id="itemGenerationView" class="section" style="display: none;">
+            <!-- Item Preview Grid -->
+            <div id="itemPreviewGrid" class="preview-grid">
+                <!-- Grid will be generated by JS -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Custom Confirmation Modal -->
+<div id="custom-confirm-modal" class="custom-confirm-modal" style="display: none;">
+    <div class="modal-content">
+        <p id="confirm-message">Are you sure?</p>
+        <div class="modal-buttons">
+            <button id="confirm-yes" class="modal-button">Yes</button>
+            <button id="confirm-no" class="modal-button">No</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="currencyModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Drop Currency</h2>
+      <input type="text" id="currencyInput" placeholder='Enter amount (e.g., "24s 33c")' />
+      <button id="submitCurrency">Drop</button>
+    </div>
+  </div>
+
+        <div class="item-info" id="itemInfo"></div>
+        <div class="context-menu" id="contextMenu"></div>
+        <div id="inventory"></div>
+
+
+<!-- Talents Popup -->
+<div id="talentsPopup" class="popup">
+    <div class="popup-header">
+        <h2>Talents</h2>
+        <button id="closeTalents" onclick="togglePopup('talentsPopup')">X</button>
+    </div>
+    <div class="popup-content">
+        <div class="talent-tree-container">
+            <div class="talent-header">
+                <div class="talent-points">Points Available: <span id="availablePoints">51</span></div>
+                <div class="talent-tabs">
+                    <button class="tab-button active" data-tree="sacred">Sacred (0)</button>
+                    <button class="tab-button" data-tree="suffering">Suffering (0)</button>
+                    <button class="tab-button" data-tree="vengeance">Vengeance (0)</button>
+                </div>
+                <button id="resetTalents" class="reset-button">Reset</button>
+            </div>
+
+            <div class="talent-trees">
+                <div id="sacredTree" class="talent-tree active">
+                    <div class="talent-grid"></div>
+                </div>
+                <div id="sufferingTree" class="talent-tree">
+                    <div class="talent-grid"></div>
+                </div>
+                <div id="vengeanceTree" class="talent-tree">
+                    <div class="talent-grid"></div>
+                </div>
+            </div>
+
+            <div id="talentTooltip" class="talent-tooltip"></div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Spells Popup -->
+<div id="spellsPopup" class="popup">
+    <div class="popup-header">
+        <h2>Spellbook</h2>
+        <button id="closeSpells" onclick="togglePopup('spellsPopup')">X</button>
+    </div>
+    <div class="popup-content spellbook-container">
+        <!-- Spellbook Header -->
+        <div class="spellbook-header">
+            <div class="spellbook-tabs">
+                <!-- Tabs will be dynamically generated by JavaScript -->
+            </div>
+        </div>
+        <!-- Spellbook Content -->
+        <div id="generalSpells" class="spellbook-content active">
+            <!-- General spells will be populated here -->
+        </div>
+        <div id="sacredSpells" class="spellbook-content">
+            <!-- Sacred specialization spells -->
+        </div>
+        <div id="sufferingSpells" class="spellbook-content">
+            <!-- Suffering specialization spells -->
+        </div>
+        <div id="vengeanceSpells" class="spellbook-content">
+            <!-- Vengeance specialization spells -->
+        </div>
+    </div>
+
+</div>
+
+    <!-- Spell Tooltip -->
+    <div id="spellTooltip" class="spell-tooltip"></div>
+
+    <div id="creatureLibrary" class="popup creature-library" style="display: none;">         
+        <div class="popup-header">             
+            <h2>Creature Library</h2>             
+            <span class="close-button" onclick="toggleCreatureLibrary()">X</span>         
+        </div>         
+        <div class="popup-content">             
+            <div id="creatureList"></div>         
+        </div> 
+    </div>
+
+    <div id="socialPopup" class="popup">
+        <div class="popup-header">
+            <div class="tab-buttons">
+                <button class="tab-button active">Friends</button>
+                <button class="tab-button">Ignore</button>
+            </div>
+            <button class="close-button">×</button>
+        </div>
+        
+        <div class="popup-content">
+            <div class="friends-list">
+                <div class="friend-entry">
+                    <div class="friend-info">
+                        <span class="friend-name">Yad</span>
+                        <span class="friend-status online">Online</span>
+                        <span class="friend-level">Level 60</span>
+                    </div>
+                </div>
+                <div class="friend-entry">
+                    <div class="friend-info">
+                        <span class="friend-name">Unknown</span>
+                        <span class="friend-status offline">Offline</span>
+                        <span class="friend-level">Level 45</span>
+                        <span class="last-online">Last online: 2 hours ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="popup-footer">
+            <div class="footer-button-container" id="footerButtonContainer">
+                <button class="social-button" id="addFriend">Add Friend</button>
+                <button class="social-button" id="removeFriend">Remove Friend</button>
+            </div>
+        
+    </div>
+</div>
+
+<!-- Action Bar -->
+<div class="action-bar">
+    <div class="action-slot" data-hotkey="1">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">1</span>
+    </div>
+    <div class="action-slot" data-hotkey="2">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">2</span>
+    </div>
+    <div class="action-slot" data-hotkey="3">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">3</span>
+    </div>
+    <div class="action-slot" data-hotkey="4">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">4</span>
+    </div>
+    <div class="action-slot" data-hotkey="5">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">5</span>
+    </div>
+    <div class="action-slot" data-hotkey="6">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">6</span>
+    </div>
+    <div class="action-slot" data-hotkey="7">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">7</span>
+    </div>
+    <div class="action-slot" data-hotkey="8">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">8</span>
+    </div>
+    <div class="action-slot" data-hotkey="9">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">9</span>
+    </div>
+    <div class="action-slot" data-hotkey="0">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">0</span>
+    </div>
+    <div class="action-slot" data-hotkey="-">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">-</span>
+    </div>
+    <div class="action-slot" data-hotkey="=">
+        <img src="https://example.com/empty-slot.png" alt="Empty Slot">
+        <span class="hotkey">=</span>
+    </div>
+</div>
+<!-- Navigation Buttons -->
+<div class="navigation">
+    <button id="characterSheetButton" class="nav-button" onclick="togglePopup('characterSheetPopup')" title="Character">
+        <svg viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        <span class="hotkey">C</span>
+    </button>
+    
+    <button id="inventoryButton" class="nav-button" onclick="togglePopup('inventoryPopup')" title="Inventory">
+        <svg viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+        </svg>
+        <span class="hotkey">B</span>
+    </button>
+    
+    <button id="spellsButton" class="nav-button" onclick="togglePopup('spellsPopup')" title="Spells">
+        <svg viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+        <span class="hotkey">S</span>
+    </button>
+    
+    <button id="talentsButton" class="nav-button" onclick="togglePopup('talentsPopup')" title="Talents">
+        <svg viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        <span class="hotkey">T</span>
+    </button>
+    
+    <button id="questLogButton" class="nav-button" title="Quest Log">
+        <svg viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+        </svg>
+        <span class="hotkey">Q</span>
+    </button>
+    
+    <button id="socialButton" class="nav-button" title="Social">
+        <svg viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+        </svg>
+        <span class="hotkey">O</span>
+    </button>
+    
+    <button id="itemLibraryButton" class="nav-button" onclick="togglePopup('itemLibrary')" title="Item Library">
+        <svg viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+        </svg>
+        <span class="hotkey">I</span>
+    </button>
+    
+    <button id="chatButton" class="nav-button" title="Chat">
+        <svg viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+        </svg>
+        <span class="hotkey">Space</span>
+    </button>
+    
+    <button id="creatureLibraryButton" class="nav-button" title="Creature Library">
+        <svg viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 7h10M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z M12 11c-2.5 0-3.5 1.5-3.5 3s1 3 3.5 3 3.5-1.5 3.5-3-1-3-3.5-3z"/>
+            <path d="M9 17c-2.5 0-3.5-1.5-3.5-3s1-3 3.5-3m6 0c2.5 0 3.5 1.5 3.5 3s-1 3-3.5 3"/>
+        </svg>
+        <span class="hotkey">L</span>
+    </button>
+    <button id="initiateCombatButton" class="nav-button" onclick="togglePopup('combatPopup')" title="Combat">
+        <svg viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        <span class="hotkey">F</span>
+    </button>
+    <button id="settingsButton" class="nav-button" onclick="togglePopup('settingsMenu')" title="Settings">
+        <svg viewBox="0 0 24 24" class="nav-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+        </svg>
+        <span class="hotkey">G</span>
+    </button>
+</div>
+<div id="settingsMenu" class="settings-menu">
+    <div class="menu-header">
+        <h2>Settings</h2>
+        <button id="closeSettingsMenu" class="close-button">&times;</button>
+    </div>
+    <div class="menu-content">
+        <div class="menu-section">
+            <h3>Background Image</h3>
+            <input type="file" id="backgroundImageInput" accept="image/*">
+            <button id="setBackgroundButton">Set Background</button>
+        </div>
+        <div class="menu-section">
+            <h3>Grid Settings</h3>
+            <label for="gridScaleInput">Grid Scale:</label>
+            <input type="number" id="gridScaleInput" min="10" max="100" value="50"> px
+            <button id="setGridScaleButton">Set Grid Scale</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Character Sheet Popup -->
+<div id="characterSheetPopup" class="popup">
+    <div class="popup-header">
+        <h2>Character Sheet</h2>
+
+    </div>
+    <div class="popup-content">
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('character')">Character</button>
+            <button class="tab" onclick="switchTab('skills')">Skills</button>
+            <button class="tab" onclick="switchTab('lore')">Lore</button>
+        </div>
+    <div class="tab-content-container">
+        <div id="characterTab" class="tab-content" style="display: block;">
+            <div class="section equipment">
+                <h2>Equipment</h2>
+                <div class="section character-image">
+                    <div class="character-image-container">
+                        <img id="characterImage" src="https://example.com/placeholder.jpg" alt="Character">
+                        <div class="image-upload-container" style="position: absolute; top: 60px; right: 5px; z-index: 10;">
+                            <label for="imageUpload" style="cursor: pointer;">
+                                <img src="C:\Users\Daniel\Desktop\WCVTT\image-upload-icon.webp" alt="Upload" style="width: 24px; height: 24px;">
+                            </label>
+                            <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="gear-slot" style="top: 0; left: 50%; transform: translateX(-50%);" data-slot="head" data-info="Helms, crowns, and mystical headpieces to protect your noggin.">
+                            <img src="https://i.ibb.co/nfJ1bt4/dwarf-helmet.png" alt="Head">
+                        </div>
+                        <div class="gear-slot" style="top: 50px; left: 0;" data-slot="shoulder" data-info="Pauldrons and spaulders to intimidate foes and shield your shoulders.">
+                            <img src="https://i.ibb.co/Y0V2tRS/spiked-shoulder-armor.png" alt="Shoulder">
+                        </div>
+                        <div class="gear-slot" style="top: 50px; left: 50%; transform: translateX(-50%);" data-slot="neck" data-info="Amulets and necklaces imbued with arcane power.">
+                            <img src="https://i.ibb.co/Brfmppn/gem-necklace.png" alt="Neck">
+                        </div>
+                        <div class="gear-slot" style="top: 0; right: 0;" data-slot="cape" data-info="Cloaks and capes for dramatic flair and elemental protection.">
+                            <img src="https://i.ibb.co/zszXj9V/cape.png" alt="Cape">
+                        </div>
+                        <div class="gear-slot" style="top: 150px; left: 50%; transform: translateX(-50%);" data-slot="chest" data-info="Breastplates and robes to guard your vital organs.">
+                            <img src="https://i.ibb.co/Mgq80bp/chest-armor.png" alt="Chest">
+                        </div>
+                        <div class="gear-slot" style="top: 200px; left: 0;" data-slot="wrists" data-info="Bracers and vambraces to deflect blows and channel magic.">
+                            <img src="https://i.ibb.co/RpSVsQp/bracer.png" alt="Wrist">
+                        </div>
+                        <div class="gear-slot" style="bottom: 0; left: 0;" data-slot="main-hand" data-info="Weapons of all kinds to vanquish your enemies.">
+                            <img src="https://i.ibb.co/BrF2rQ2/sword-brandish.png" alt="Main Hand">
+                        </div>
+                        <div class="gear-slot" style="bottom: 0; right: 0;" data-slot="off-hand" data-info="Shields, focuses, or a second weapon for the ambitious.">
+                            <img src="https://i.ibb.co/6JZLqcj/viking-shield.png" alt="Off Hand">
+                        </div>
+                        <div class="gear-slot" style="top: 0; left: 0;" data-slot="ranged" data-info="Bows, crossbows, and wands for those who prefer distance.">
+                            <img src="https://i.ibb.co/ZJwMwPC/crossbow.png" alt="Ranged">
+                        </div>
+                        <div class="gear-slot" style="bottom: 50px; left: 0;" data-slot="ring1" data-info="Magical rings to enhance your powers. Choose wisely.">
+                            <img src="https://i.ibb.co/ZVz59WN/ring.png" alt="Ring 1">
+                        </div>
+                        <div class="gear-slot" style="bottom: 50px; right: 0;" data-slot="ring2" data-info="A second ring for those who crave more power.">
+                            <img src="https://i.ibb.co/ZVz59WN/ring.png" alt="Ring 2">
+                        </div>
+                        <div class="gear-slot" style="bottom: 0; left: 50%; transform: translateX(-50%);" data-slot="feet" data-info="Boots and sabatons for sure footing and swift movement.">
+                            <img src="https://i.ibb.co/ysK238B/boots.png" alt="Feet">
+                        </div>
+                        <div class="gear-slot" style="bottom: 100px; left: 50%; transform: translateX(-50%);" data-slot="legs" data-info="Greaves and leggings to protect your lower half.">
+                            <img src="https://i.ibb.co/t8BzScg/armored-pants.png" alt="Pants">
+                        </div>
+                        <div class="gear-slot" style="bottom: 150px; left: 50%; transform: translateX(-50%);" data-slot="waist" data-info="Belts and girdles, some with hidden pouches for extra storage.">
+                            <img src="https://i.ibb.co/gTDSjyz/belt.png" alt="Waist">
+                        </div>
+                        <div class="gear-slot" style="top: 200px; right: 0;" data-slot="hands" data-info="Gauntlets and gloves for a firm grip on weapons or spells.">
+                            <img src="https://i.ibb.co/nsKJQkX/mailed-fist.png" alt="Hands">
+                        </div>
+                    </div>
+                    <div class="gear-slot-info"></div>
+                </div>
+            </div>
+            <div class="stats-container">
+                <div class="stats-column">
+                    <h3>Base Stats</h3>
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <div class="stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/j8fK9Lz/Constitutionpng.png" data-gif-src="https://i.ibb.co/yfkLT1f/struggle-ezgif-com-gif-maker.gif">
+                                <img src="https://i.ibb.co/j8fK9Lz/Constitutionpng.png" alt="Constitution" class="stat-gif">
+                            </div>
+                            <span class="stat-value" id="conValue" value="10" min="1" max="50"></span>
+                            <span class="stat-total-overlay" id="conTotalOverlay"></span>
+                            <span class="stat-total"></span>
+                            <span class="stat-name">Constitution</span>
+                            <span class="stat-modifier" id="conModifier">+0</span>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/xFthQm2/Strengthpng.png" data-gif-src="https://i.ibb.co/hHp694Q/strenght-ezgif-com-gif-maker.gif">
+                                <img src="https://i.ibb.co/xFthQm2/Strengthpng.png" alt="Strength" class="stat-gif">
+                            </div>
+                            <span class="stat-value" id="strValue" value="10" min="1" max="50"></span>
+                            <span class="stat-total-overlay" id="strTotalOverlay"></span>
+                            <span class="stat-total" ></span>
+                            <span class="stat-name">Strength</span>
+                            <span class="stat-modifier" id="strModifier">+0</span>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/1KvWqF4/Agilitypng.png" data-gif-src="https://i.ibb.co/sR3ckN5/running1-ezgif-com-gif-maker.gif">
+                                <img src="https://i.ibb.co/1KvWqF4/Agilitypng.png" alt="Agility" class="stat-gif">
+                            </div>
+                            <span class="stat-value" id="agiValue" value="10" min="1" max="50"></span>
+                            <span class="stat-total-overlay" id="agiTotalOverlay"></span>
+                            <span class="stat-total"></span>
+                            <span class="stat-name">Agility</span>
+                            <span class="stat-modifier" id="agiModifier">+0</span>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/80QFvDh/Intelligencepng.png" data-gif-src="https://i.ibb.co/JtDzKPK/world-creativity-and-innovation-day-ezgif-com-gif-maker.gif">
+                                <img src="https://i.ibb.co/80QFvDh/Intelligencepng.png" alt="Intelligence" class="stat-gif">
+                            </div>
+                            <span class="stat-value" id="intValue" value="10" min="1" max="50"></span>
+                            <span class="stat-total-overlay" id="intTotalOverlay"></span>
+                            <span class="stat-total"></span>
+                            <span class="stat-name">Intelligence</span>
+                            <span class="stat-modifier" id="intModifier">+0</span>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/LpdfKVP/Spiritpng.png" data-gif-src="https://i.ibb.co/g7jvPpt/meditation-ezgif-com-gif-maker.gif">
+                                <img src="https://i.ibb.co/LpdfKVP/Spiritpng.png" alt="Spirit" class="stat-gif">
+                            </div>
+                            <span class="stat-value" id="spirValue" value="10" min="1" max="50"></span>
+                            <span class="stat-total-overlay" id="spirTotalOverlay"></span>
+                            <span class="stat-total"></span>
+                            <span class="stat-name">Spirit</span>
+                            <span class="stat-modifier" id="spirModifier">+0</span>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/BzfJy3P/charismapng.png" data-gif-src="https://i.ibb.co/VMvjZSV/conversation-ezgif-com-gif-maker.gif">
+                                <img src="https://i.ibb.co/BzfJy3P/charismapng.png" alt="Charisma" class="stat-gif">
+                            </div>
+                            <span class="stat-value" id="chaValue" value="10" min="1" max="50"></span>
+                            <span class="stat-total-overlay" id="chaTotalOverlay"></span>
+                            <span class="stat-total"></span>
+                            <span class="stat-name">Charisma</span>
+                            <span class="stat-modifier" id="chaModifier">+0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="derived-stats-column">
+                    <h3>Derived Stats</h3>
+                    <div class="derived-stats-grid">
+                        <div class="derived-stat">
+                            <div class="derived-stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/VxtBLsH/hearts-ezgif-com-gif-maker.png" data-gif-src="https://i.ibb.co/NWf63r5/hearts-ezgif-com-gif-maker.gif">
+                                <img src="https://i.ibb.co/VxtBLsH/hearts-ezgif-com-gif-maker.png" alt="Health Regen" class="derived-stat-gif">
+                            </div>
+                            <div class="derived-stat-name">Health Regen</div>
+                            <div class="derived-stat-value" id="healthRegen"><span>0</span></div>
+                        </div>
+                        <div class="derived-stat">
+                            <div class="derived-stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/K5kMtF7/potion-ezgif-com-gif-maker.png" data-gif-src="https://i.ibb.co/WpnRTQn/potion-ezgif-com-gif-maker.gif">
+                                <img src="https://i.ibb.co/K5kMtF7/potion-ezgif-com-gif-maker.png" alt="Mana Regen" class="derived-stat-gif">
+                            </div>
+                            <div class="derived-stat-name">Mana Regen</div>
+                            <div class="derived-stat-value" id="manaRegen"><span>0</span></div>
+                        </div>
+                        <div class="derived-stat">
+                            <div class="derived-stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/khyvfw5/output-onlinegiftools-1.png" data-gif-src="https://i.ibb.co/bQ0Bn2x/output-onlinegiftools-1.gif">
+                                <img src="https://i.ibb.co/khyvfw5/output-onlinegiftools-1.png" alt="Damage" class="derived-stat-gif">
+                            </div>
+                            <div class="derived-stat-name">Damage</div>
+                            <div class="derived-stat-value" id="damage"><span>0</span></div>
+                        </div>
+                        <div class="derived-stat">
+                            <div class="derived-stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/THJ065F/output-onlinegiftools-2.png" data-gif-src="https://i.ibb.co/yPV9SRW/output-onlinegiftools-5.gif">
+                                <img src="https://i.ibb.co/THJ065F/output-onlinegiftools-2.png" alt="Ranged Damage" class="derived-stat-gif">
+                            </div>
+                            <div class="derived-stat-name">Ranged Damage</div>
+                            <div class="derived-stat-value" id="rangedDamage"><span>0</span></div>
+                        </div>
+                        <div class="derived-stat">
+                            <div class="derived-stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/m0x3tNj/output-onlinegiftools-4.png" data-gif-src="https://i.ibb.co/85L2TKv/output-onlinegiftools-6.gif">
+                                <img src="https://i.ibb.co/m0x3tNj/output-onlinegiftools-4.png" alt="Spell Damage" class="derived-stat-gif">
+                            </div>
+                            <div class="derived-stat-name">Spell Damage</div>
+                            <div class="derived-stat-value" id="spellDamage"><span>0</span></div>
+                        </div>
+                        <div class="derived-stat">
+                            <div class="derived-stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/sVyp6KH/output-onlinegiftools-3.png" data-gif-src="https://i.ibb.co/PxNM1km/output-onlinegiftools-3.gif">
+                                <img src="https://i.ibb.co/sVyp6KH/output-onlinegiftools-3.png" alt="Healing" class="derived-stat-gif">
+                            </div>
+                            <div class="derived-stat-name">Healing</div>
+                            <div class="derived-stat-value" id="healing"><span>0</span></div>
+                        </div>
+                        <div class="derived-stat">
+                            <div class="derived-stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/fqVKTKS/armor-ezgif-com-gif-maker.png" data-gif-src="https://i.ibb.co/M5mmcL0/armor-ezgif-com-gif-maker.gif">
+                                <img src="https://i.ibb.co/fqVKTKS/armor-ezgif-com-gif-maker.png" alt="Armor" class="derived-stat-gif">
+                            </div>
+                            <div class="derived-stat-name">Armor (AC)</div>
+                            <div class="derived-stat-value" id="armor"><span>0</span></div>
+                        </div>
+                        <div class="derived-stat">
+                            <div class="derived-stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/tYWnM2s/violence-ezgif-com-gif-maker.png" data-gif-src="https://i.ibb.co/Mc2NccM/violence-ezgif-com-gif-maker.gif">
+                                <img src="https://i.ibb.co/tYWnM2s/violence-ezgif-com-gif-maker.png" alt="Critical Chance" class="derived-stat-gif">
+                            </div>
+                            <div class="derived-stat-name">Critical Chance</div>
+                            <div class="derived-stat-value" id="crit"><span>0%</span></div>
+                        </div>
+                        <div class="derived-stat">
+                            <div class="derived-stat-icon" onmouseover="startGif(this)" onmouseout="stopGif(this)" data-static-src="https://i.ibb.co/QcxVvVx/running-ezgif-com-gif-maker.png" data-gif-src="https://i.ibb.co/QKX54BY/running-ezgif-com-gif-maker.gif">
+                                <img src="https://i.ibb.co/QcxVvVx/running-ezgif-com-gif-maker.png" alt="Movement Speed" class="derived-stat-gif">
+                            </div>
+                            <div class="derived-stat-name">Movement Speed</div>
+                            <div class="derived-stat-value" id="moveSpeed"><span>0</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div id="skillsTab" class="tab-content" style="display: none;">
+            <div class="section skills">
+                <h2>Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-item" data-stat="agi">
+                        <img src="https://example.com/acrobatics-icon.png" alt="Acrobatics" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Acrobatics</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="int">
+                        <img src="https://example.com/arcana-icon.png" alt="Arcana" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Arcana</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="str">
+                        <img src="https://example.com/athletics-icon.png" alt="Athletics" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Athletics</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="cha">
+                        <img src="https://example.com/deception-icon.png" alt="Deception" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Deception</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="int">
+                        <img src="https://example.com/history-icon.png" alt="History" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">History</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="spir">
+                        <img src="https://example.com/insight-icon.png" alt="Insight" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Insight</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="cha">
+                        <img src="https://example.com/intimidation-icon.png" alt="Intimidation" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Intimidation</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="int">
+                        <img src="https://example.com/investigation-icon.png" alt="Investigation" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Investigation</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="spir">
+                        <img src="https://example.com/medicine-icon.png" alt="Medicine" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Medicine</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="int">
+                        <img src="https://example.com/nature-icon.png" alt="Nature" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Nature</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="spir">
+                        <img src="https://example.com/perception-icon.png" alt="Perception" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Perception</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="cha">
+                        <img src="https://example.com/performance-icon.png" alt="Performance" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Performance</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="cha">
+                        <img src="https://example.com/persuasion-icon.png" alt="Persuasion" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Persuasion</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="int">
+                        <img src="https://example.com/religion-icon.png" alt="Religion" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Religion</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="agi">
+                        <img src="https://example.com/sleight-of-hand-icon.png" alt="Sleight of Hand" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Sleight of Hand</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="agi">
+                        <img src="https://example.com/stealth-icon.png" alt="Stealth" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Stealth</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="spir">
+                        <img src="https://example.com/survival-icon.png" alt="Survival" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Survival</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="spir">
+                        <img src="https://example.com/animal-handling-icon.png" alt="Animal Handling" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Animal Handling</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="spir">
+                        <img src="https://example.com/beastmastery-icon.png" alt="Beastmastery" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Beastmastery</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-stat="int">
+                        <img src="https://example.com/herbalism-icon.png" alt="Herbalism" class="skill-icon">
+                        <div class="skill-name-and-modifier">
+                            <span class="skill-name">Herbalism</span>
+                            <span class="skill-modifier">+0</span>
+                        </div>
+                        <div class="skill-orbs">
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                            <div class="skill-orb"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="loreTab" class="tab-content" style="display: none;">
+            <div class=""lore-content-scrollable"></div>
+            <h2>Character Lore</h2>
+            <div class="lore-section">
+                <div class="lore-grid">
+                    <div class="lore-item">
+                        <div class="lore-title" contenteditable="true">Backstory</div>
+                        <div class="lore-description" contenteditable="true">Enter your character's backstory here...</div>
+                    </div>
+                    <div class="lore-item">
+                        <div class="lore-title" contenteditable="true">Personality Traits</div>
+                        <div class="lore-description" contenteditable="true">List your character's personality traits...</div>
+                    </div>
+                    <div class="lore-item">
+                        <div class="lore-title" contenteditable="true">Ideals</div>
+                        <div class="lore-description" contenteditable="true">Describe your character's ideals...</div>
+                    </div>
+                    <div class="lore-item">
+                        <div class="lore-title" contenteditable="true">Bonds</div>
+                        <div class="lore-description" contenteditable="true">List your character's bonds...</div>
+                    </div>
+                    <div class="lore-item">
+                        <div class="lore-title" contenteditable="true">Flaws</div>
+                        <div class="lore-description" contenteditable="true">Describe your character's flaws...</div>
+                    </div>
+                    <div class="lore-item">
+                        <div class="lore-title" contenteditable="true">Goals</div>
+                        <div class="lore-description" contenteditable="true">List your character's current goals...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="closeCharacterSheet" onclick="togglePopup('characterSheetPopup')">X</button>
+    </div>
+    
+
+</div>
+
+// Scripts //
+    <script src="Gmtools.js"></script>
+    <script src="sharedState.js"></script>
+    <script src="utils.js" defer></script>
+    <script src="Chat.js"></script>
+    <script src="combatstate.js"></script>
+    <script src="Popup.js" defer></script>
+    <script src="currency.js" defer></script>
+    <script src="Inventory.js" defer></script>
+    <script src="itemgeneration.js" defer></script>
+    <script src="Token-management.js" defer></script>   
+    <script src="creatureAbilities.js"></script>
+    <script src="creaturewindow.js" defer></script>
+
+    
+
+    <script src="lootTables.js" defer></script>
+    
+    <script src="Combat.js" defer></script>
+    <script src="vtt-main.js" defer></script>
+    
+    <script src="Grid.js" defer></script>
+    <script src="Items.js" defer></script>
+    
+    <script src="Talents.js" defer></script>
+    <script src="Spellbook.js" defer></script>
+    <script src="Social.js" defer></script>
+    
+    <script src="Character.js"></script>
+    
+    
+    
+    <script src="context-menu.js" defer></script>
+    <script src="HUD.js" defer></script>
+    <script src="init.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js" defer></script>
+    
+
+
+
+
+
+ 
+</body>
+</html>
